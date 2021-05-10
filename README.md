@@ -1,5 +1,7 @@
 # Open Targets Platform API BETA (experimental)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/48f129fc5edb4c6bb5fb11975968bb89)](https://app.codacy.com/gh/CBIIT/ppdc-otp-backend?utm_source=github.com&utm_medium=referral&utm_content=CBIIT/ppdc-otp-backend&utm_campaign=Badge_Grade_Settings)
+
 Experimental GraphQL API.
 
 ## Requirement
