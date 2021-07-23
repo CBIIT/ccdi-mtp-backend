@@ -151,9 +151,9 @@ object Objects extends Logging {
           ctx.ctx.getAssociationsTargetFixed(
             ctx.value,
             ctx arg datasourceSettingsListArg,
-            ctx arg indirectEvidences getOrElse (false),
-            ctx arg aggregationFiltersListArg getOrElse (Seq.empty),
-            ctx arg BIds map (_.toSet) getOrElse (Set.empty),
+            ctx arg indirectEvidences getOrElse false,
+            ctx arg aggregationFiltersListArg getOrElse Seq.empty,
+            ctx arg BIds map (_.toSet) getOrElse Set.empty,
             ctx arg BFilterString,
             (ctx arg scoreSorting) map (_.split(" ").take(2).toList match {
               case a :: b :: Nil => (a, b)
@@ -674,7 +674,8 @@ object Objects extends Logging {
 
   implicit lazy val indicationsImp = deriveObjectType[Backend, Indications](
     ExcludeFields("id"),
-    RenameField("indications", "rows")
+    RenameField("indications", "rows"),
+    RenameField("indicationCount", "count"),
   )
 
   implicit lazy val mechanismOfActionImp = deriveObjectType[Backend, MechanismsOfAction]()
@@ -705,9 +706,6 @@ object Objects extends Logging {
                     " post-marketing package inserts"),
     DocumentField("isApproved", "Alias for maximumClinicalTrialPhase == 4"),
     DocumentField("hasBeenWithdrawn", "Has drug been withdrawn from the market"),
-    DocumentField("drugWarning", "Warnings present on drug as identified by ChEMBL."),
-    DocumentField("approvedIndications",
-                  "Indications for which there is a phase IV clinical trial"),
     DocumentField("blackBoxWarning", "Alert on life-threteaning drug side effects provided by FDA"),
     DocumentField("description", "Drug description"),
     ReplaceField(
@@ -728,9 +726,16 @@ object Objects extends Logging {
     ),
     AddFields(
       Field(
+        "approvedIndications",
+        OptionType(ListType(StringType)),
+        description = Some("Indications for which there is a phase IV clinical trial"),
+        resolve = r => DeferredValue(indicationFetcher.deferOpt(r.value.id))
+          .map(_.flatMap(_.approvedIndications))
+      ),
+      Field(
         "drugWarnings",
         ListType(drugWarningsImp),
-        description = Some("Drug warnings"),
+        description = Some("Warnings present on drug as identified by ChEMBL."),
         resolve = c => {
           c.ctx.getDrugWarnings(c.value.id)
         }
