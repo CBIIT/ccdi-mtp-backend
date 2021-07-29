@@ -388,7 +388,6 @@ object Evidence {
             OptionType(StringType),
             description = None,
             resolve = js => (js.value \ "contrast").asOpt[String]),
-             resolve = js => (js.value \ "studyStopReason").asOpt[String]),
       Field("DeSampleGroup1",
             OptionType(StringType),
             description = None,
