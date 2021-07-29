@@ -387,7 +387,20 @@ object Evidence {
       Field("contrast",
             OptionType(StringType),
             description = None,
-            resolve = js => (js.value \ "contrast").asOpt[String])
+            resolve = js => (js.value \ "contrast").asOpt[String]),
+             resolve = js => (js.value \ "studyStopReason").asOpt[String]),
+      Field("DeSampleGroup1",
+            OptionType(StringType),
+            description = None,
+            resolve = js => (js.value \ "DeSampleGroup1").asOpt[String]),
+      Field("DeSampleGroup1Count",
+            OptionType(FloatType),
+            description = None,
+            resolve = js => (js.value \ "DeSampleGroup1Count").asOpt[FloatType]),
+       Field("DeSampleGroup1MeanTpm",
+            OptionType(FloatType),
+            description = None,
+            resolve = js => (js.value \ "DeSampleGroup1MeanTpm").asOpt[FloatType])
     )
   )
 }
