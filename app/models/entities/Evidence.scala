@@ -395,11 +395,11 @@ object Evidence {
       Field("DeSampleGroup1Count",
             OptionType(FloatType),
             description = None,
-            resolve = js => (js.value \ "DeSampleGroup1Count").asOpt[FloatType]),
+            resolve = js => (js.value \ "DeSampleGroup1Count").asOpt[Double]),
        Field("DeSampleGroup1MeanTpm",
             OptionType(FloatType),
             description = None,
-            resolve = js => (js.value \ "DeSampleGroup1MeanTpm").asOpt[FloatType])
+            resolve = js => (js.value \ "DeSampleGroup1MeanTpm").asOpt[Double])
     )
   )
 }
