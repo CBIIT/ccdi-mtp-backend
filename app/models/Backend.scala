@@ -202,11 +202,14 @@ class Backend @Inject()(
       .map(_.map(cbIndexPrefix.concat).mkString(","))
       .getOrElse(cbIndexPrefix.concat("*"))
 
-    val kv = Map(
+    val kv = if(diseaseIds.isEmpty){
+     Map("targetId.keyword" -> targetIds)
+    }else{
+      Map(
       "targetId.keyword" -> targetIds,
       "diseaseId.keyword" -> diseaseIds
     )
-
+    }
     esRetriever
       .getByMustWithSearch(cbIndex,
                            kv,
