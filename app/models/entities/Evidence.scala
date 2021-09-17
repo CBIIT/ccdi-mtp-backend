@@ -445,7 +445,7 @@ object Evidence {
             OptionType(StringType),
             description = None,
             resolve = js => (js.value \ "Dataset").asOpt[String]),
-      Field("disease",
+      Field("Disease",
             OptionType(StringType),
             description = None,
             resolve = js => (js.value \ "Disease").asOpt[String]),
