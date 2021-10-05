@@ -5,9 +5,7 @@ import com.sksamuel.elastic4s._
 import com.sksamuel.elastic4s.http.JavaClient
 import com.sksamuel.elastic4s.requests.searches._
 import com.sksamuel.elastic4s.requests.searches.aggs._
-import com.sksamuel.elastic4s.requests.searches.queries.BoolQuery
-import com.sksamuel.elastic4s.requests.searches.queries.matches.MatchQuery
-import com.sksamuel.elastic4s.requests.searches.sort.{FieldSort, SortOrder}
+import com.sksamuel.elastic4s.requests.searches.sort.SortOrder
 import esecuele._
 
 import javax.inject.Inject
@@ -16,10 +14,10 @@ import models.db.{QAOTF, QLITAGG, QW2V}
 import models.entities.Publication._
 import models.entities.Aggregations._
 import models.entities.Associations._
-import models.entities.CancerBiomarkers._
 import models.entities.Configuration._
 import models.entities.DiseaseHPOs._
 import models.entities.Drug._
+import models.entities.MousePhenotypes._
 import models.entities._
 import play.api.cache.AsyncCacheApi
 import play.api.db.slick.DatabaseConfigProvider
@@ -88,38 +86,10 @@ class Backend @Inject()(
           None
         }
         case (seq, agg) =>
-          logger.debug(Json.prettyPrint(agg))
+          logger.trace(Json.prettyPrint(agg))
           val counts = (agg \ "eventCount" \ "value").as[Long]
           Some(AdverseEvents(counts, seq.head.criticalValue, seq))
       }
-  }
-
-  def getCancerBiomarkers(id: String,
-                          pagination: Option[Pagination]): Future[Option[CancerBiomarkers]] = {
-
-    val pag = pagination.getOrElse(Pagination.mkDefault)
-
-    val cbIndex = getIndexOrDefault("cancerBiomarker")
-
-    val kv = Map("target.keyword" -> id)
-
-    val aggs = Seq(
-      cardinalityAgg("uniqueDrugs", "drugName.keyword"),
-      cardinalityAgg("uniqueDiseases", "disease.keyword"),
-      cardinalityAgg("uniqueBiomarkers", "id.keyword"),
-      valueCountAgg("rowsCount", "id.keyword")
-    )
-
-    esRetriever.getByIndexedQueryMust(cbIndex, kv, pag, fromJsValue[CancerBiomarker], aggs).map {
-      case (Seq(), _) => Some(CancerBiomarkers(0,0,0,0, Seq()))
-      case (seq, agg) =>
-        logger.debug(Json.prettyPrint(agg))
-        val drugs = (agg \ "uniqueDrugs" \ "value").as[Long]
-        val diseases = (agg \ "uniqueDiseases" \ "value").as[Long]
-        val biomarkers = (agg \ "uniqueBiomarkers" \ "value").as[Long]
-        val rowsCount = (agg \ "rowsCount" \ "value").as[Long]
-        Some(CancerBiomarkers(drugs, diseases, biomarkers, rowsCount, seq))
-    }
   }
 
   def getDiseaseHPOs(id: String,
@@ -138,10 +108,16 @@ class Backend @Inject()(
     esRetriever.getByIndexedQueryMust(cbIndex, kv, pag, fromJsValue[DiseaseHPO], aggs).map {
       case (Seq(), _) => Some(DiseaseHPOs(0, Seq()))
       case (seq, agg) =>
-        logger.debug(Json.prettyPrint(agg))
+        logger.trace(Json.prettyPrint(agg))
         val rowsCount = (agg \ "rowsCount" \ "value").as[Long]
         Some(DiseaseHPOs(rowsCount, seq))
     }
+  }
+
+  def getGoTerms(ids: Seq[String]): Future[IndexedSeq[GeneOntologyTerm]] = {
+    val targetIndexName = getIndexOrDefault("go")
+
+    esRetriever.getByIds(targetIndexName, ids, fromJsValue[GeneOntologyTerm])
   }
 
   def getKnownDrugs(queryString: String,
@@ -173,7 +149,7 @@ class Backend @Inject()(
       .map {
         case (Seq(), _, _) => None
         case (seq, agg, nextCursor) =>
-          logger.debug(Json.prettyPrint(agg))
+          logger.trace(Json.prettyPrint(agg))
           val drugs = (agg \ "uniqueDrugs" \ "value").as[Long]
           val diseases = (agg \ "uniqueDiseases" \ "value").as[Long]
           val targets = (agg \ "uniqueTargets" \ "value").as[Long]
@@ -223,22 +199,20 @@ class Backend @Inject()(
       }
   }
 
-  def getECOs(ids: Seq[String]): Future[IndexedSeq[ECO]] = {
-    val targetIndexName = getIndexOrDefault("eco")
-
-    esRetriever.getByIds(targetIndexName, ids, fromJsValue[ECO])
-  }
-
   def getHPOs(ids: Seq[String]): Future[IndexedSeq[HPO]] = {
     val targetIndexName = getIndexOrDefault("hpo")
 
     esRetriever.getByIds(targetIndexName, ids, fromJsValue[HPO])
   }
 
-  def getMousePhenotypes(ids: Seq[String]): Future[IndexedSeq[MousePhenotypes]] = {
-    val targetIndexName = getIndexOrDefault("mp")
+  def getMousePhenotypes(ids: Seq[String]): Future[IndexedSeq[MousePhenotype]] = {
+    val indexName = getIndexOrDefault("mouse_phenotypes", Some("mouse_phenotypes"))
+    val queryTerm = Map("targetFromSourceId.keyword" -> ids)
+    logger.debug(s"Querying mouse phenotypes for: $ids")
 
-    esRetriever.getByIds(targetIndexName, ids, fromJsValue[MousePhenotypes])
+    // The entry with the highest number of MP is ENSG00000157404 with 1828. Pagination max size is 5000, so we have plenty
+    // of headroom for now.
+    esRetriever.getByIndexedQueryMust(indexName, queryTerm, Pagination(0, Pagination.sizeMax), fromJsValue[MousePhenotype]).map(_._1)
   }
 
   def getOtarProjects(ids: Seq[String]): Future[IndexedSeq[OtarProjects]] = {
@@ -262,12 +236,11 @@ class Backend @Inject()(
   def getTargets(ids: Seq[String]): Future[IndexedSeq[Target]] = {
     val targetIndexName = getIndexOrDefault("target", Some("targets"))
 
-    val excludedFields = List("mousePhenotypes*")
-    esRetriever.getByIds(targetIndexName, ids, fromJsValue[Target], excludedFields = excludedFields)
+    esRetriever.getByIds(targetIndexName, ids, fromJsValue[Target])
   }
 
   def getDrugs(ids: Seq[String]): Future[IndexedSeq[Drug]] = {
-    logger.info(s"Querying drugs: $ids")
+    logger.debug(s"Querying drugs: $ids")
     val drugIndexName = getIndexOrDefault("drug")
     val queryTerm = Map("id.keyword" -> ids)
     esRetriever.getByIndexedQueryShould(drugIndexName, queryTerm, Pagination(0, ids.size), fromJsValue[Drug]).map(_._1)
@@ -275,6 +248,7 @@ class Backend @Inject()(
 
   def getMechanismsOfAction(id: String): Future[MechanismsOfAction] = {
 
+    logger.debug(s"querying ES: getting mechanisms of action for $id")
     val index = getIndexOrDefault("drugMoA")
     val queryTerms = Map("chemblIds.keyword" -> id)
     val mechanismsOfActionRaw: Future[(IndexedSeq[MechanismOfActionRaw], JsValue)] =
@@ -294,10 +268,23 @@ class Backend @Inject()(
   }
 
   def getDrugWarnings(id: String): Future[IndexedSeq[DrugWarning]] = {
+    logger.debug(s"Querying drug warnings for $id")
     val indexName = getIndexOrDefault("drugWarnings")
     val queryTerm = Map("chemblIds.keyword" -> id)
-    logger.debug(s"Querying drug warnings for $id")
-    esRetriever.getByIndexedQueryShould(indexName, queryTerm, Pagination.mkDefault, fromJsValue[DrugWarning]).map(_._1)
+    esRetriever.getByIndexedQueryShould(indexName, queryTerm, Pagination.mkDefault, fromJsValue[DrugWarning]).map(results => {
+      /*
+      Group references by warning type and toxicity class to replicate ChEMBL web interface.
+      This work around relates to ticket opentargets/platform#1506
+       */
+      val drugWarnings = results._1.foldLeft(Map.empty[(String, Option[String]), DrugWarning])((dwMap, dw) => {
+        if (dwMap.contains((dw.warningType, dw.toxicityClass))) {
+          val old = dwMap((dw.warningType, dw.toxicityClass))
+          val newDW = old.copy(references = Some((old.references ++ dw.references).flatten.toSeq))
+          dwMap.updated((dw.warningType, dw.toxicityClass), newDW)
+        } else dwMap + ((dw.warningType, dw.toxicityClass) -> dw)
+      })
+      drugWarnings.values.toIndexedSeq
+    })
   }
 
   def getDiseases(ids: Seq[String]): Future[IndexedSeq[Disease]] = {
@@ -356,14 +343,17 @@ class Backend @Inject()(
 
     val mappings = Map(
       "dataTypes" -> AggregationMapping("datatype_id",
-                                        IndexedSeq("datatype_id", "datasource_id"),
-                                        false),
+        IndexedSeq("datatype_id", "datasource_id"),
+        false),
       "tractabilitySmallMolecule" -> AggregationMapping("facet_tractability_smallmolecule",
-                                                        IndexedSeq.empty,
-                                                        false),
+        IndexedSeq.empty,
+        false),
       "tractabilityAntibody" -> AggregationMapping("facet_tractability_antibody",
-                                                   IndexedSeq.empty,
-                                                   false),
+        IndexedSeq.empty,
+        false),
+      "tractabilityProtac" -> AggregationMapping("facet_tractability_protac",
+        IndexedSeq.empty,
+        false),
       "pathwayTypes" -> AggregationMapping("facet_reactome", IndexedSeq("l1", "l2"), true),
       "targetClasses" -> AggregationMapping("facet_classes", IndexedSeq("l1", "l2"), true)
     )
@@ -422,11 +412,24 @@ class Backend @Inject()(
         subaggs = Seq(
           uniqueTargetsAgg,
           TermsAggregation("aggs",
-                           Some("facet_tractability_antibody.keyword"),
-                           size = Some(100),
-                           subaggs = Seq(
-                             uniqueTargetsAgg
-                           ))
+            Some("facet_tractability_antibody.keyword"),
+            size = Some(100),
+            subaggs = Seq(
+              uniqueTargetsAgg
+            ))
+        )
+      ),
+      FilterAggregation(
+        "tractabilityProtac",
+        filtersMap("tractabilityProtac"),
+        subaggs = Seq(
+          uniqueTargetsAgg,
+          TermsAggregation("aggs",
+            Some("facet_tractability_protac.keyword"),
+            size = Some(100),
+            subaggs = Seq(
+              uniqueTargetsAgg
+            ))
         )
       ),
       FilterAggregation(
@@ -495,7 +498,7 @@ class Backend @Inject()(
       queryAggs
     ) map {
       case obj: JsObject =>
-        logger.debug(Json.prettyPrint(obj))
+        logger.trace(Json.prettyPrint(obj))
 
         val ids = (obj \ "uniques" \ "ids" \ "buckets" \\ "key").map(_.as[String]).toSet
         val uniques = (obj \ "uniques" \\ "value").head.as[Long]
@@ -646,7 +649,7 @@ class Backend @Inject()(
       queryAggs
     ) map {
       case obj: JsObject =>
-        logger.debug(Json.prettyPrint(obj))
+        logger.trace(Json.prettyPrint(obj))
 
         val ids = (obj \ "uniques" \ "ids" \ "buckets" \\ "key").map(_.as[String]).toSet
         val uniques = (obj \ "uniques" \\ "value").head.as[Long]
@@ -725,6 +728,11 @@ class Backend @Inject()(
     }
   }
 
+  /**
+   * @param index   key of index (name field) in application.conf
+   * @param default fallback index name
+   * @return elasticsearch index name resolved from application.conf or default.
+   */
   private def getIndexOrDefault(index: String, default: Option[String] = None): String =
     defaultESSettings.entities
       .find(_.name == index)

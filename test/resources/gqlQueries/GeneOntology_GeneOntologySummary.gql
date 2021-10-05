@@ -1,0 +1,14 @@
+fragment GeneOntologySummaryFragment on Target {
+  id
+  approvedSymbol
+  geneOntology {
+    term {
+      id
+      name
+    }
+    aspect
+    evidence
+    geneProduct
+    source
+  }
+}
