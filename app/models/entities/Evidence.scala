@@ -524,7 +524,7 @@ object Evidence {
       Field("totalAlterationsOverNumberPatientsInDataset",
             OptionType(StringType),
             description = None,
-            resolve = js => (js.value \ "total_alterations_over_number_patients_in_dataset").asOpt[String]),
+            resolve = js => (js.value \ "Total_alterations_over_Patients_in_dataset").asOpt[String]),
       Field("totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset",
             OptionType(StringType),
             description = None,
