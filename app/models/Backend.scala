@@ -556,6 +556,7 @@ class Backend @Inject()(
                                  filter: Option[String],
                                  orderBy: Option[(String, String)],
                                  pagination: Option[Pagination]): Future[Associations] = {
+
     val page = pagination.getOrElse(Pagination.mkDefault)
     val dss = datasources.getOrElse(defaultOTSettings.clickhouse.harmonic.datasources)
 

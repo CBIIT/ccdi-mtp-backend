@@ -147,7 +147,7 @@ object Objects extends Logging {
         associatedOTFDiseasesImp,
         description = Some("associations on the fly"),
         arguments = BIds :: indirectEvidences :: datasourceSettingsListArg :: aggregationFiltersListArg :: BFilterString :: scoreSorting :: pageArg :: Nil,
-        resolve = ctx =>
+        resolve = ctx => {
           ctx.ctx.getAssociationsTargetFixed(
             ctx.value,
             ctx arg datasourceSettingsListArg,
@@ -161,7 +161,8 @@ object Objects extends Logging {
               case _             => ("score", "desc")
             }),
             ctx arg pageArg
-        )
+          )
+        }
       ),
     )
   )
