@@ -312,6 +312,8 @@ class ElasticRetriever @Inject()(client: ElasticClient,
     }
   }
 
+
+
   def getByFreeQuery[A](
       esIndex: String,
       queryString: String,
@@ -434,6 +436,54 @@ class ElasticRetriever @Inject()(client: ElasticClient,
         }
     }
   }
+
+
+ 
+  def getPedCanNavByWildCard[A](
+    esIndex:String,
+    geneSymbol:String,
+    disease:String,
+    buildF: JsValue => Option[A],
+    ):Future[(IndexedSeq[A])] ={
+
+    val wildCardQGeneSymbol = wildcardQuery("Gene_symbol","*"+geneSymbol+"*")
+    val wildCardQDisease = wildcardQuery("Disease","*"+disease+"*")
+    val q =
+      search(esIndex)
+        .bool {
+          must(
+            wildCardQGeneSymbol,
+            wildCardQDisease
+            )
+        }
+        .start(0)
+        .limit(10000)
+        .trackTotalHits(true)
+
+        val elems =
+          client.execute {
+            logger.debug(client.show(q))
+            q
+          }
+         elems.map {
+           case _: RequestFailure => IndexedSeq.empty
+           case results: RequestSuccess[SearchResponse] =>
+             // parse the full body response into JsValue
+            // thus, we can apply Json Transformations from JSON Play
+            val result = Json.parse(results.body.get)
+            logger.debug(Json.prettyPrint(result))
+            val hits = (result \ "hits" \ "hits").get.as[JsArray].value
+
+            val mappedHits = hits
+              .map(jObj => {
+                buildF(jObj)
+              })
+              .map(_.get)
+              //IndexedSeq(PedCanNavObject)
+              mappedHits
+        }
+  }
+
 
   def getSearchResultSet(entities: Seq[ElasticsearchEntity],
                          qString: String,

@@ -1,22 +1,9 @@
 package models.entities
-
 import play.api.{Logger, Logging}
 import play.api.libs.json._
 import play.api.libs.json.Reads._
+import play.api.libs.functional.syntax._
 
-/*
-{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000174",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Ewing sarcoma",
-  "SNV": false,
-  "CNV": true,
-  "Fusion": false,
-  "GeneExpression": true,
-  "id": "08bc9958-5d58-11ec-92ac-acde48001122"
-}
-*/
 
 case class PedCanNavObject(targetFromSourceId: String,
                   diseaseFromSourceMappedId: String,
@@ -28,10 +15,12 @@ case class PedCanNavObject(targetFromSourceId: String,
                   GeneExpression: Boolean,
                   id: String
                  )
+
 case class PedCanNav(rows: Seq[PedCanNavObject])
 
+
 object PedCanNavObject {
-  implicit val PedCanNavObjectImpReader: Reads[PedCanNavObject] = (
+  implicit val pedCanNavObjectImpR: Reads[PedCanNavObject] = (
     (JsPath \ "targetFromSourceId").read[String] and
       (JsPath \ "diseaseFromSourceMappedId").read[String] and
       (JsPath \ "Gene_symbol").read[String] and
@@ -42,8 +31,5 @@ object PedCanNavObject {
       (JsPath \ "GeneExpression").read[Boolean] and
       (JsPath \ "id").read[String]
   )(PedCanNavObject.apply _)
-
-  implicit val PedCanNavImpReader: Reads[PedCanNav] = (
-      (JsPath \ "rows").read[Seq[PedCanNavObject]]
-  )(PedCanNav.apply _)
 }
+

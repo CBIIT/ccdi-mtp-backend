@@ -400,6 +400,17 @@ object Objects extends Logging {
     ExcludeFields("id")
   )
 
+
+  implicit val pedCanNavObjectImp = deriveObjectType[Backend, PedCanNavObject](
+    ObjectTypeDescription("data for Pediatric Cancer Data Navigation"),
+  )
+
+  implicit val pedCanNavImp = deriveObjectType[Backend, PedCanNav](
+    ObjectTypeDescription("Data for Pediatric Cancer Data Navigation Page"),
+    DocumentField("rows", "Pediatric Cancer Data Navigation entry")
+  )
+
+
   implicit val adverseEventImp = deriveObjectType[Backend, AdverseEvent](
     ObjectTypeDescription("Significant adverse event entries"),
     DocumentField("name", "Meddra term on adverse event"),
