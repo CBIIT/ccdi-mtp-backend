@@ -109,6 +109,15 @@ object GQLSchema {
           import ctx.ctx._
           Interactions.listResources
         }
+      ),
+      Field(
+        "pedCanNav",
+        OptionType(pedCanNavImp),
+        description = Some("Pediatric Cancer data"),
+        arguments = geneSymbol :: disease :: Nil,
+        resolve = ctx => {
+           ctx.ctx.getPedCanNav(ctx.arg(geneSymbol),ctx.arg(disease))
+        }
       )
     )
   )

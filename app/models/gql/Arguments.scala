@@ -41,6 +41,8 @@ object Arguments {
   val efoId = Argument("efoId", StringType, description = "EFO ID")
   val efoIds = Argument("efoIds", ListInputType(StringType), description = "EFO ID")
   val ensemblId = Argument("ensemblId", StringType, description = "Ensembl ID")
+  val disease = Argument("disease", StringType, description = "disease")
+  val geneSymbol = Argument("geneSymbol", StringType, description = "geneSymbol")
   val ensemblIds =
     Argument("ensemblIds", ListInputType(StringType), description = "List of Ensembl IDs")
   val chemblId = Argument("chemblId", StringType, description = "Chembl ID")

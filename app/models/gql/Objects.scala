@@ -147,7 +147,7 @@ object Objects extends Logging {
         associatedOTFDiseasesImp,
         description = Some("associations on the fly"),
         arguments = BIds :: indirectEvidences :: datasourceSettingsListArg :: aggregationFiltersListArg :: BFilterString :: scoreSorting :: pageArg :: Nil,
-        resolve = ctx =>
+        resolve = ctx => {
           ctx.ctx.getAssociationsTargetFixed(
             ctx.value,
             ctx arg datasourceSettingsListArg,
@@ -161,7 +161,8 @@ object Objects extends Logging {
               case _             => ("score", "desc")
             }),
             ctx arg pageArg
-        )
+          )
+        }
       ),
     )
   )
@@ -398,6 +399,17 @@ object Objects extends Logging {
   implicit val expressionsImp = deriveObjectType[Backend, Expressions](
     ExcludeFields("id")
   )
+
+
+  implicit val pedCanNavObjectImp = deriveObjectType[Backend, PedCanNavObject](
+    ObjectTypeDescription("data for Pediatric Cancer Data Navigation"),
+  )
+
+  implicit val pedCanNavImp = deriveObjectType[Backend, PedCanNav](
+    ObjectTypeDescription("Data for Pediatric Cancer Data Navigation Page"),
+    DocumentField("rows", "Pediatric Cancer Data Navigation entry")
+  )
+
 
   implicit val adverseEventImp = deriveObjectType[Backend, AdverseEvent](
     ObjectTypeDescription("Significant adverse event entries"),
