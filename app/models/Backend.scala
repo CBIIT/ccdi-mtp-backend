@@ -99,7 +99,7 @@ class Backend @Inject()(
                   ): Future[PedCanNav] = {
        val cbIndex = getIndexOrDefault("chop_data")
 
-    esRetriever.getPedCanNavByWildCard(cbIndex,geneSymbol,disease,fromJsValue[PedCanNavObject]).map{
+    esRetriever.getPedCanNavData(cbIndex,geneSymbol,disease,fromJsValue[PedCanNavObject]).map{
       case(Seq())=> PedCanNav(Seq()) 
       case(seq) => PedCanNav(seq)
     }

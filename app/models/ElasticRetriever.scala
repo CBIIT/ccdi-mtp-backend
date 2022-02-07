@@ -438,27 +438,89 @@ class ElasticRetriever @Inject()(client: ElasticClient,
   }
 
 
+
+/*
+{ 
+  "query": {
+    "bool": {
+      "must": [
+   {
+    "match": {
+      "Disease": {
+        "query": "tumor dysembryoplastic",
+        "operator": "and"
+      }
+    }
+  },
+  {
+    "match": {
+      "Gene_symbol": {
+        "query": ""
+      }
+    }
+  }
+  ]
+  }
+  }
+}*/
+
+
+
  
-  def getPedCanNavByWildCard[A](
+  def getPedCanNavData[A](
     esIndex:String,
     geneSymbol:String,
     disease:String,
     buildF: JsValue => Option[A],
     ):Future[(IndexedSeq[A])] ={
 
-    val wildCardQGeneSymbol = wildcardQuery("Gene_symbol","*"+geneSymbol+"*")
-    val wildCardQDisease = wildcardQuery("Disease","*"+disease+"*")
-    val q =
-      search(esIndex)
+    val matchGeneSymbol = matchQuery("Gene_symbol","*"+geneSymbol+"*")
+    val matchDisease = matchQuery("Disease","*"+disease+"*").operator("and")
+    var q = search(esIndex)
         .bool {
           must(
-            wildCardQGeneSymbol,
-            wildCardQDisease
+            matchDisease,
+            matchGeneSymbol
             )
         }
         .start(0)
         .limit(10000)
         .trackTotalHits(true)
+
+    if("".equals(disease) && !"".equals(geneSymbol)){
+       q = search(esIndex)
+        .bool {
+          must(
+            matchGeneSymbol
+            )
+        }
+        .start(0)
+        .limit(10000)
+        .trackTotalHits(true)
+    }
+    if(!"".equals(disease) && "".equals(geneSymbol)){
+       q = search(esIndex)
+        .bool {
+          must(
+            matchDisease
+            )
+        }
+        .start(0)
+        .limit(10000)
+        .trackTotalHits(true)
+    }
+    if(!"".equals(disease) && !"".equals(geneSymbol)){
+       q = search(esIndex)
+        .bool {
+          must(
+            matchDisease,
+            matchGeneSymbol
+            )
+        }
+        .start(0)
+        .limit(10000)
+        .trackTotalHits(true)
+    }
 
         val elems =
           client.execute {
