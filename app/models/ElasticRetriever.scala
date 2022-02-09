@@ -439,33 +439,50 @@ class ElasticRetriever @Inject()(client: ElasticClient,
 
 
 
-/*
-{ 
-  "query": {
-    "bool": {
-      "must": [
-   {
-    "match": {
-      "Disease": {
-        "query": "tumor dysembryoplastic",
-        "operator": "and"
-      }
-    }
-  },
-  {
-    "match": {
-      "Gene_symbol": {
-        "query": ""
-      }
-    }
-  }
-  ]
-  }
-  }
-}*/
+  def getPedCanNavGeneData[A](
+    esIndex:String,
+    geneSymbol:String,
+    buildF: JsValue => Option[A],
+    ):Future[(IndexedSeq[A])] ={
+     val prefixGeneSymbol = matchPhrasePrefixQuery("Gene_symbol",geneSymbol)
+    var q = search(esIndex)
+        .query {
+         prefixGeneSymbol
+        }
+        .aggs {
+          termsAgg("unique_gene", "Gene_symbol.keyword") 
+          // creates a terms aggregation on the payment_status field
+        }
+        .size(0)
+        .start(0)
+        .limit(100)
+        .trackTotalHits(true)
 
 
+        val elems =
+          client.execute {
+            logger.debug(client.show(q))
+            q
+          }
+         elems.map {
+           case _: RequestFailure => IndexedSeq.empty
+           case results: RequestSuccess[SearchResponse] =>
+             // parse the full body response into JsValue
+            // thus, we can apply Json Transformations from JSON Play
+            val result = Json.parse(results.body.get)
+            val aggsR = (result \ "aggregations" \ "unique_gene" \ "buckets").get.as[JsArray].value
+            
+            val mappedAggsR = aggsR
+              .map(jObj => {
+                logger.debug("test" + Json.prettyPrint(jObj))
+                buildF(jObj)
+              })
+              .map(_.get)
 
+              mappedAggsR
+        }
+    
+  }
  
   def getPedCanNavData[A](
     esIndex:String,
@@ -474,8 +491,8 @@ class ElasticRetriever @Inject()(client: ElasticClient,
     buildF: JsValue => Option[A],
     ):Future[(IndexedSeq[A])] ={
 
-    val matchGeneSymbol = matchQuery("Gene_symbol","*"+geneSymbol+"*")
-    val matchDisease = matchQuery("Disease","*"+disease+"*").operator("and")
+    val matchGeneSymbol = matchQuery("Gene_symbol",geneSymbol).operator("and")
+    val matchDisease = matchQuery("Disease",disease).operator("and")
     var q = search(esIndex)
         .bool {
           must(
@@ -533,7 +550,7 @@ class ElasticRetriever @Inject()(client: ElasticClient,
              // parse the full body response into JsValue
             // thus, we can apply Json Transformations from JSON Play
             val result = Json.parse(results.body.get)
-            logger.debug(Json.prettyPrint(result))
+            //logger.debug(Json.prettyPrint(result))
             val hits = (result \ "hits" \ "hits").get.as[JsArray].value
 
             val mappedHits = hits
@@ -541,7 +558,6 @@ class ElasticRetriever @Inject()(client: ElasticClient,
                 buildF(jObj)
               })
               .map(_.get)
-              //IndexedSeq(PedCanNavObject)
               mappedHits
         }
   }

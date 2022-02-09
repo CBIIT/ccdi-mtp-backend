@@ -84,6 +84,7 @@ object Helpers extends Logging {
 
   def fromJsValue[A](jObj: JsValue)(implicit reader: Reads[A]): Option[A] = {
     val source = (__ \ '_source).json.pick
+    logger.debug(Json.prettyPrint(jObj))
     jObj
       .transform(source)
       .asOpt
@@ -91,5 +92,11 @@ object Helpers extends Logging {
         logger.debug(Json.prettyPrint(obj))
         obj.as[A]
       })
+  }
+
+
+    def fromJsValueToObject[A](jObj: JsValue)(implicit reader: Reads[A]): Option[A] = {
+
+      jObj.asOpt[A]
   }
 }

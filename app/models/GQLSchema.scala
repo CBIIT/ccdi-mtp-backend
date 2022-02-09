@@ -118,6 +118,15 @@ object GQLSchema {
         resolve = ctx => {
            ctx.ctx.getPedCanNav(ctx.arg(geneSymbol),ctx.arg(disease))
         }
+      ),
+      Field(
+        "pedCanNavGene",
+        OptionType(pedCanNavGeneImp),
+        description = Some("Pediatric Cancer gene data"),
+        arguments = geneSymbol :: Nil,
+        resolve = ctx => {
+           ctx.ctx.getPedCanNavGene(ctx.arg(geneSymbol))
+        }
       )
     )
   )
