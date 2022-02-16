@@ -450,7 +450,7 @@ class ElasticRetriever @Inject()(client: ElasticClient,
          prefixGeneSymbol
         }
         .aggs {
-          termsAgg("unique_gene", "Gene_symbol.keyword").size(30) 
+          termsAgg("unique_gene", "Gene_symbol.keyword").size(45) 
           // creates a terms aggregation on the payment_status field
         }
         .size(0)
