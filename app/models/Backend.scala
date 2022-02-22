@@ -105,6 +105,17 @@ class Backend @Inject()(
     }
   }
 
+
+  def getPedCanNavGene(geneSymbol: String,
+                  ): Future[PedCanNavGene] = {
+       val cbIndex = getIndexOrDefault("chop_data")
+
+    esRetriever.getPedCanNavGeneData(cbIndex,geneSymbol,fromJsValueToObject[PedCanNavGeneObject]).map{
+      case(Seq())=> PedCanNavGene(Seq()) 
+      case(seq) => PedCanNavGene(seq)
+    }
+  }
+
   def getCancerBiomarkers(id: String,
                           pagination: Option[Pagination]): Future[Option[CancerBiomarkers]] = {
 
