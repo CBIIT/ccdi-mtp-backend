@@ -3,7 +3,7 @@ import scala.language.postfixOps
 import scala.sys.process._
 import sbt._
 
-name := """ot-platform-api"""
+name := """ot-platform-api-beta"""
 organization := "io.opentargets"
 
 version := "latest"

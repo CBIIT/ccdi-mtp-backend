@@ -29,7 +29,7 @@ deploy:
   api_key: $GITHUB_TOKEN
   skip_cleanup: true
   file_glob: true
-  file: "target/universal/ot-platform-api-latest.zip"
+  file: "target/universal/ot-platform-api-beta-latest.zip"
   on:
     repo: opentargets/platform-api
     tags: true
