@@ -1,10 +1,11 @@
 package models.entities
 
 import play.api.libs.json.Json
+import play.api.libs.json.OFormat
 
 /** Pagination case class takes an index from 0..page-1 and size indicate
   * the batch of each page.
-  * */
+  */
 case class Pagination(index: Int, size: Int) {
   lazy val offset: Int = toES._1
 
@@ -33,7 +34,10 @@ object Pagination {
   val sizeMax: Int = 5000
   val sizeDefault: Int = 25
   val indexDefault: Int = 0
+
+  /** @return page with defaults: index = 0, size = 25.
+    */
   def mkDefault: Pagination = Pagination(indexDefault, sizeDefault)
 
-  implicit val paginationJSONImp = Json.format[models.entities.Pagination]
+  implicit val paginationJSONImp: OFormat[Pagination] = Json.format[models.entities.Pagination]
 }
