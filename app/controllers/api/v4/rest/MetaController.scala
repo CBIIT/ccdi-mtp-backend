@@ -38,6 +38,9 @@ class MetaController @Inject() (implicit
               month
               iteration
             }
+            mtpBackendVersion{
+              version
+            }
           }
         }
       """

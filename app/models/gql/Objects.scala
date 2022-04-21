@@ -20,6 +20,8 @@ object Objects extends Logging {
     deriveObjectType[Backend, DataVersion]()
   implicit val metaAPIVersionImp: ObjectType[Backend, APIVersion] =
     deriveObjectType[Backend, APIVersion]()
+  implicit val metaMTPVersionImp: ObjectType[Backend, MTPVersion] =
+    deriveObjectType[Backend, MTPVersion]()
   implicit val metaImp: ObjectType[Backend, Meta] = deriveObjectType[Backend, Meta]()
 
   implicit lazy val targetImp: ObjectType[Backend, Target] = deriveObjectType(

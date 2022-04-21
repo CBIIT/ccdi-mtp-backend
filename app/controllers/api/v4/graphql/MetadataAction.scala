@@ -2,7 +2,7 @@ package controllers.api.v4.graphql
 
 import QueryMetadataHeaders.{GQL_OP_HEADER, GQL_VAR_HEADER}
 import models.Helpers.loadConfigurationObject
-import models.entities.Configuration.{APIVersion, DataVersion, OTSettings}
+import models.entities.Configuration.{APIVersion, DataVersion, OTSettings, MTPVersion}
 import play.api.{Configuration, Logging}
 import play.api.mvc.{ActionBuilderImpl, BodyParsers, Request, Result}
 
@@ -17,7 +17,8 @@ case class GqlRequestMetadata(
     operation: String,
     variables: String,
     api: APIVersion,
-    data: DataVersion
+    data: DataVersion,
+    mtp: MTPVersion
 )
 
 class MetadataAction @Inject() (parser: BodyParsers.Default)(implicit
@@ -30,6 +31,7 @@ class MetadataAction @Inject() (parser: BodyParsers.Default)(implicit
 
   val apiVersion: APIVersion = otSettings.meta.apiVersion
   val dataVersion: DataVersion = otSettings.meta.dataVersion
+  val mtpVersion : MTPVersion = otSettings.meta.mtpVersion
   val metadataLoggingConfig = otSettings.logging
 
   val operationFilters: Map[String, Int] = metadataLoggingConfig.ignoredQueries.map(_ -> 1).toMap
@@ -57,7 +59,8 @@ class MetadataAction @Inject() (parser: BodyParsers.Default)(implicit
               responseHeaders.getOrElse(GQL_OP_HEADER, ""),
               responseHeaders.getOrElse(GQL_VAR_HEADER, ""),
               apiVersion,
-              dataVersion
+              dataVersion,
+              mtpVersion
             )
 
             logger.info(meta.toString)

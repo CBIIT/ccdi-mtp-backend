@@ -12,11 +12,13 @@ object Configuration {
 
   case class APIVersion(x: Int, y: Int, z: Int)
 
+  case class MTPVersion(version: String)
+
   /** meta class compile the name and version information for
     * the application. Also, it serves as a container to include
     * future fields
     */
-  case class Meta(name: String, apiVersion: APIVersion, dataVersion: DataVersion)
+  case class Meta(name: String, apiVersion: APIVersion, dataVersion: DataVersion, mtpVersion: MTPVersion)
 
   case class ElasticsearchEntity(name: String, index: String, searchIndex: Option[String])
 
@@ -71,6 +73,7 @@ object Configuration {
   implicit val loggingJsonImp: OFormat[Logging] = Json.format[Logging]
   implicit val metaDataVersionJSONImp: OFormat[DataVersion] = Json.format[DataVersion]
   implicit val metaAPIVersionJSONImp: OFormat[APIVersion] = Json.format[APIVersion]
+  implicit val metaMTPVersionJSONImp: OFormat[MTPVersion] = Json.format[MTPVersion]
   implicit val metaJSONImp: OFormat[Meta] = Json.format[Meta]
 
   implicit val esEntitiesJSONImp: OFormat[ElasticsearchEntity] = Json.format[ElasticsearchEntity]
