@@ -197,6 +197,7 @@ class Backend @Inject() (implicit
       "targetId.keyword" -> targetIds,
       "diseaseId.keyword" -> diseaseIds
     )
+    }
 
     esRetriever
       .getByMustWithSearch(
