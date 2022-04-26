@@ -210,7 +210,6 @@ class ElasticRetriever @Inject() (
       excludedFields: Seq[String] = Seq.empty,
       searchAfter: Option[String] = None
   ): Future[(IndexedSeq[A], Long, Option[String])] = {
-
     val sa: Seq[Any] = decodeSearchAfter(searchAfter).toSeq
     val q = search(esIndex)
       .bool(boolQ)
@@ -277,8 +276,9 @@ class ElasticRetriever @Inject() (
   ): Future[(IndexedSeq[A], Long, Option[String])] = {
 
     val mustTerms = kv.toSeq.map(p => termsQuery(p._1, p._2))
-
+    
     val sa = decodeSearchAfter(searchAfter).toSeq
+
     val q = search(esIndex)
       .bool {
         must(mustTerms)
@@ -288,6 +288,8 @@ class ElasticRetriever @Inject() (
       .trackTotalHits(true)
       .sourceExclude(excludedFields)
       .searchAfter(sa)
+    
+    logger.info(s"Elasticsearch query to execute: ${client.show(q)}")
 
     // just log and execute the query
     val elems: Future[Response[SearchResponse]] = client.execute {
@@ -345,6 +347,8 @@ class ElasticRetriever @Inject() (
       excludedFields: Seq[String] = Seq.empty,
       searchAfter: Option[String] = None
   ): Future[(IndexedSeq[A], JsValue, Option[String])] = {
+
+    logger.debug("Elasticsearch query  getByFreeQuery")
     val limitClause = pagination.toES
 
     val boolQ = boolQuery().should(

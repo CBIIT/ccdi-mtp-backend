@@ -177,7 +177,7 @@ class Backend @Inject() (implicit
       sizeLimit: Option[Int],
       cursor: Option[String]
   ): Future[Evidences] = {
-
+    
     val pag = sizeLimit.getOrElse(Pagination.sizeDefault)
     val sortByField = orderBy.flatMap { p =>
       ElasticRetriever.sortBy(p._1, if (p._2 == "desc") SortOrder.Desc else SortOrder.Asc)
@@ -189,7 +189,11 @@ class Backend @Inject() (implicit
       .map(_.map(cbIndexPrefix.concat).mkString(","))
       .getOrElse(cbIndexPrefix.concat("*"))
 
-    val kv = Map(
+   // MTP specify change for getting the evidences associated with given targets id without disease id
+   val kv = if(diseaseIds.isEmpty){
+     Map("targetId.keyword" -> targetIds)
+    }else{
+      Map(
       "targetId.keyword" -> targetIds,
       "diseaseId.keyword" -> diseaseIds
     )
@@ -255,7 +259,6 @@ class Backend @Inject() (implicit
 
   def getTargets(ids: Seq[String]): Future[IndexedSeq[Target]] = {
     val targetIndexName = getIndexOrDefault("target", Some("targets"))
-
     esRetriever.getByIds(targetIndexName, ids, fromJsValue[Target])
   }
 

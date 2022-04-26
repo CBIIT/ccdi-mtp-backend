@@ -106,7 +106,6 @@ class GraphQLController @Inject() (implicit
     } else {
       executeQuery(gqlQuery)
     }
-
   }
 
   private def executeQuery(
