@@ -478,8 +478,14 @@ object Evidence {
       Field(
         "literature",
         OptionType(ListType(StringType)),
-        description = None,
+        description = Some("list of pub med publications ids"),
         resolve = js => (js.value \ "literature").asOpt[Seq[String]]
+      ),
+      Field(
+        "pubMedCentralIds",
+        OptionType(ListType(StringType)),
+        description = Some("list of central pub med publications ids"),
+        resolve = js => (js.value \ "pmcIds").asOpt[Seq[String]]
       ),
       Field(
         "studyCases",
@@ -826,11 +832,11 @@ object Evidence {
       ),
       Field(
         "studyCasesWithQualifyingVariants",
-        OptionType(StringType),
+        OptionType(LongType),
         description = Some(
           "Number of cases in a case-control study that carry at least one allele of the qualifying variant"
         ),
-        resolve = js => (js.value \ "studyCasesWithQualifyingVariants").asOpt[String]
+        resolve = js => (js.value \ "studyCasesWithQualifyingVariants").asOpt[Long]
       ),
       Field(
         "variantHgvsId",
@@ -838,8 +844,6 @@ object Evidence {
         description = Some("Identifier in HGVS notation of the disease-causing variant"),
         resolve = js => (js.value \ "variantHgvsId").asOpt[String]
       ),
-
-      
 //Chop data fields
       Field("DeSampleGroup1",
             OptionType(StringType),

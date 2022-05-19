@@ -190,15 +190,12 @@ class Backend @Inject() (implicit
       .getOrElse(cbIndexPrefix.concat("*"))
 
    // MTP specify change for getting the evidences associated with given targets id without disease id
-   val kv = if(diseaseIds.isEmpty){
-     Map("targetId.keyword" -> targetIds)
-    }else{
-      Map(
+    val kv = Map(
       "targetId.keyword" -> targetIds,
       "diseaseId.keyword" -> diseaseIds
     )
-    }
 
+    
     esRetriever
       .getByMustWithSearch(
         cbIndex,
