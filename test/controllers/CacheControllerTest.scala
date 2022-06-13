@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit
 import akka.util.Timeout
 import controllers.api.v4.graphql.GraphQLController
 import controllers.api.v4.rest.CacheController
+import inputs.DrugInputs
 import models.gql.Fetchers
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.play.PlaySpec
@@ -22,10 +23,11 @@ import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 
 class CacheControllerTest
-    extends PlaySpec
+  extends PlaySpec
     with GuiceOneAppPerSuite
     with Injecting
     with Logging
+    with DrugInputs
     with ScalaFutures {
 
   lazy val controller: CacheController = inject[CacheController]
@@ -46,12 +48,11 @@ class CacheControllerTest
       val drugCache = Fetchers.drugsFetcherCache
 
       val query = Json.parse(
-        """{ "query": "query { drugs(chemblIds: [\"CHEMBL221959\", \"CHEMBL2103743\"]) { id } }"}"""
-      )
+        """{ "query": "query { drugs(chemblIds: [\"CHEMBL221959\", \"CHEMBL2103743\"]) { id } }"}""")
       val request = FakeRequest(POST, "/graphql")
         .withHeaders(("Content-Type", "application/json"))
         .withBody(query)
-      Await.result(gqlController.gqlBody().apply(request), 10.second)
+      Await.result(gqlController.gqlBody.apply(request), 10.second)
       // check there is something in the cache
       assert(drugCache.get("CHEMBL221959").isDefined)
 
@@ -67,13 +68,13 @@ class CacheControllerTest
       // given
       val request = FakeRequest(GET, "/cache/clear").withHeaders(("apiKey", apiKey))
       // when
-      val result: Result = Await.result(controller.clearCache().apply(request), 2.second)
+      val result: Result = Await.result(controller.clearCache.apply(request), 2.second)
       // then
       result.header.status mustEqual 200
     }
     "without an apiKey will result in a 403 error code" in {
       // when
-      val result: Result = Await.result(controller.clearCache().apply(request), 2.second)
+      val result: Result = Await.result(controller.clearCache.apply(request), 2.second)
       // then
       result.header.status mustEqual Forbidden.header.status
     }
@@ -81,7 +82,7 @@ class CacheControllerTest
       // given
       val requestWithHeader = FakeRequest(GET, "/cache/clear").withHeaders(("apiKey", "luckyGuess"))
       // when
-      val result: Result = Await.result(controller.clearCache().apply(requestWithHeader), 2.second)
+      val result: Result = Await.result(controller.clearCache.apply(requestWithHeader), 2.second)
       // then
       result.header.status mustEqual Forbidden.header.status
 

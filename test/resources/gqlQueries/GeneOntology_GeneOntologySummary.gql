@@ -1,6 +1,9 @@
 fragment GeneOntologySummaryFragment on Target {
-  id
+  proteinAnnotations {
+    id
+  }
   geneOntology {
-    aspect
+    term
+    id
   }
 }

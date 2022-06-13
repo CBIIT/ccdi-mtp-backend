@@ -1,4 +1,6 @@
 package models.entities
+import clickhouse.rep.SeqRep._
+import clickhouse.rep.SeqRep.Implicits._
 
 import scala.math.pow
 import esecuele._
@@ -6,6 +8,8 @@ import esecuele.Column._
 import esecuele.Functions._
 import esecuele.{Functions => F}
 import models.entities.Configuration.{DatasourceSettings, LUTableSettings}
+import play.api.libs.json.Json
+import slick.jdbc.GetResult
 
 object Harmonic {
 
@@ -13,13 +17,11 @@ object Harmonic {
   val pExponentDefault: Int = 2
 
   def maxValue(vSize: Int, pExponent: Int, maxScore: Double): Double =
-    (0 until vSize).foldLeft(0d)((acc: Double, n: Int) => acc + (maxScore / pow(1d + n, pExponent)))
+    (0 until vSize).foldLeft(0D)((acc: Double, n: Int) => acc + (maxScore / pow(1D + n, pExponent)))
 
-  private def mkHSColumn(
-      col: Column,
-      maxHS: Column,
-      propagateCondition: Option[Column]
-  ): Seq[Column] = {
+  private def mkHSColumn(col: Column,
+                         maxHS: Column,
+                         propagateCondition: Option[Column]): Seq[Column] = {
     val colName = Some(col.name.toString.replaceAll("\\.", "__") + "_v")
 
     /*
@@ -36,33 +38,28 @@ object Harmonic {
       .as(colName)
 
     val dsVHS =
-      divide(
-        arraySum(Some("(a, b) -> a / pow((b + 1),2)"), dsV.name, range(length(dsV.name))),
-        maxHS
-      )
+      divide(arraySum(Some("(a, b) -> a / pow((b + 1),2)"), dsV.name, range(length(dsV.name))),
+             maxHS)
         .as(colName.map(_ + "_hs"))
 
     Vector(dsV, dsVHS)
   }
 
   /** Harmonic CH SQL dsl to compute associations on the fly
-    *
-    * @param fixedCol       if your `queryColname` is target_id it needs to be disease_id
-    * @param queryColName   the other entity you are returning from `fixedCol` so target_id
-    * @param table          the table name used for the computation
-    * @param datasources    the configuration of datasources that are used to compute all harmonics
+    * @param fixedCol if your `queryColname` is target_id it needs to be disease_id
+    * @param queryColName the other entity you are returning from `fixedCol` so target_id
+    * @param table the table name used for the computation
+    * @param datasources the configuration of datasources that are used to compute all harmonics
     * @param expansionTable it is used if Some
-    * @param pagination     page and size to return
-    */
-  def apply(
-      fixedCol: String,
-      queryColName: String,
-      queryColValue: String,
-      table: String,
-      datasources: Seq[DatasourceSettings],
-      expansionTable: Option[LUTableSettings],
-      pagination: Pagination
-  ): Query = {
+    * @param pagination page and size to return
+    * */
+  def apply(fixedCol: String,
+            queryColName: String,
+            queryColValue: String,
+            table: String,
+            datasources: Seq[DatasourceSettings],
+            expansionTable: Option[LUTableSettings],
+            pagination: Pagination): Query = {
     val idCol = Column(fixedCol)
     val qColValueCol = literal(queryColValue)
     val qCol = Column(queryColName)
@@ -73,12 +70,12 @@ object Harmonic {
       .as(Some("max_hs_score"))
 
     // WARN! the propagation hack strikes again about expression atlas
-    val dsHSCols = datasources.flatMap { c =>
+    val dsHSCols = datasources.flatMap(c => {
       if (c.id == "expression_atlas")
         Harmonic.mkHSColumn(Column(c.id), hsMaxValueCol, booleanCondition)
       else
         Harmonic.mkHSColumn(Column(c.id), hsMaxValueCol, None)
-    }
+    })
 
     val dsWeightV = array(datasources.map(c => literal(c.weight))).as(Some("ds_scores_v"))
     val dsV = array(dsHSCols.withFilter(_.name.rep.endsWith("_v_hs")).map(_.name))
@@ -87,14 +84,10 @@ object Harmonic {
     val dsVWeighted =
       arrayReverseSort(None, arrayMap("(a, b) -> a * b", dsV, dsWeightV)).as(Some("wds_v"))
     val overallHS = F
-      .divide(
-        arraySum(
-          Some("(a, b) -> a / pow((b + 1), 2)"),
-          dsVWeighted.name,
-          range(length(dsVWeighted.name))
-        ),
-        hsMaxValueCol.name
-      )
+      .divide(arraySum(Some("(a, b) -> a / pow((b + 1), 2)"),
+                       dsVWeighted.name,
+                       range(length(dsVWeighted.name))),
+              hsMaxValueCol.name)
       .as(Some("overall_hs"))
 
     val idsV = groupArray(qCol).as(Some("ids_v"))
@@ -104,18 +97,16 @@ object Harmonic {
     val s = Select(idCol.name +: overallHS.name +: dsV.name +: Nil)
     val f = From(Column(table))
 
-    val expansionQuery = expansionTable.map { lut =>
+    val expansionQuery = expansionTable.map(lut => {
       val expCol = F.joinGet(lut.name, lut.field.get, qColValueCol).as(lut.field)
       val neighbourCol = expCol.name.as(Some("neighbour"))
       val innerSel = Query(Select(expCol +: Nil))
-      val sel = Query(
-        Select(neighbourCol.name +: Nil),
-        From(innerSel.toColumn(None)),
-        ArrayJoin(neighbourCol)
-      ).toColumn(None)
+      val sel = Query(Select(neighbourCol.name +: Nil),
+                      From(innerSel.toColumn(None)),
+                      ArrayJoin(neighbourCol)).toColumn(None)
       val inn = F.in(qCol, sel)
       F.or(F.equals(qCol, qColValueCol), inn)
-    }
+    })
 
     val pw = PreWhere(expansionQuery.getOrElse(F.equals(qCol, qColValueCol)))
     val g = GroupBy(idCol +: Nil)

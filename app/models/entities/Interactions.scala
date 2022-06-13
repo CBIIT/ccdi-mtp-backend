@@ -18,7 +18,7 @@ import scala.concurrent.{ExecutionContext, Future}
 case class Interactions(count: Long, rows: IndexedSeq[JsValue])
 
 object Interactions extends Logging {
-  val interactions: ObjectType[Backend, Interactions] = ObjectType(
+  val interactions = ObjectType(
     "Interactions",
     fields[Backend, Interactions](
       Field("count", LongType, description = None, resolve = o => o.value.count),
@@ -26,11 +26,10 @@ object Interactions extends Logging {
     )
   )
 
-  def find(id: String, dbName: Option[String], pagination: Option[Pagination])(implicit
-      ec: ExecutionContext,
+  def find(id: String, dbName: Option[String], pagination: Option[Pagination])(
+      implicit ec: ExecutionContext,
       esSettings: ElasticsearchSettings,
-      esRetriever: ElasticRetriever
-  ): Future[Option[Interactions]] = {
+      esRetriever: ElasticRetriever): Future[Option[Interactions]] = {
 
     val pag = pagination.getOrElse(Pagination.mkDefault)
 
@@ -49,14 +48,12 @@ object Interactions extends Logging {
     )
 
     esRetriever
-      .getByIndexedQueryMust(
-        cbIndex,
-        kv,
-        pag,
-        fromJsValue[JsValue],
-        aggs,
-        Some(sort.FieldSort("scoring", order = SortOrder.DESC))
-      )
+      .getByIndexedQueryMust(cbIndex,
+                         kv,
+                         pag,
+                         fromJsValue[JsValue],
+                         aggs,
+                         Some(sort.FieldSort("scoring", order = SortOrder.DESC)))
       .map {
         case (Seq(), _) => None
         case (seq, agg) =>
@@ -67,11 +64,9 @@ object Interactions extends Logging {
       }
   }
 
-  def listResources(implicit
-      ec: ExecutionContext,
-      esSettings: ElasticsearchSettings,
-      esRetriever: ElasticRetriever
-  ): Future[Seq[JsValue]] = {
+  def listResources(implicit ec: ExecutionContext,
+                    esSettings: ElasticsearchSettings,
+                    esRetriever: ElasticRetriever): Future[Seq[JsValue]] = {
 
     val cbIndex = esSettings.entities
       .find(_.name == "interaction_evidence")
@@ -84,11 +79,9 @@ object Interactions extends Logging {
         Some("interactionResources.sourceDatabase.keyword"),
         size = Some(100),
         subaggs = Seq(
-          TermsAggregation(
-            "aggs",
-            Some("interactionResources.databaseVersion.keyword"),
-            size = Some(100)
-          )
+          TermsAggregation("aggs",
+                           Some("interactionResources.databaseVersion.keyword"),
+                           size = Some(100))
         )
       )
     )
@@ -99,11 +92,11 @@ object Interactions extends Logging {
 
         val keys = ((obj \ "aggs" \ "buckets")
           .as[Seq[JsValue]])
-          .map { el =>
+          .map(el => {
             val k = (el \ "key").as[String]
             val v = (el \ "aggs" \ "buckets" \\ "key").take(1).head.as[String]
             JsObject(List("sourceDatabase" -> JsString(k), "databaseVersion" -> JsString(v)))
-          }
+          })
 
         keys
       case _ => Seq.empty

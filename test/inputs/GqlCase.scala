@@ -33,7 +33,7 @@ case class AssociationDisease(file: String) extends GqlCase[(String, Aggregation
     agg <- aggregationfilterGenerator
   } yield (disease, agg)
 
-  def generateVariables(inputs: (String, AggregationFilter)) =
+  def generateVariables(inputs: (String, AggregationFilter)) = {
     s"""
       "variables": {
       "efoId": "${inputs._1}",
@@ -47,6 +47,7 @@ case class AssociationDisease(file: String) extends GqlCase[(String, Aggregation
         }]
     }
     """
+  }
 }
 
 case class AssociationTarget(file: String) extends GqlCase[(String, AggregationFilter)] {
@@ -55,7 +56,7 @@ case class AssociationTarget(file: String) extends GqlCase[(String, AggregationF
     agg <- aggregationfilterGenerator
   } yield (target, agg)
 
-  def generateVariables(inputs: (String, AggregationFilter)) =
+  def generateVariables(inputs: (String, AggregationFilter)) = {
     s"""
       "variables": {
       "ensemblId": "${inputs._1}",
@@ -69,6 +70,7 @@ case class AssociationTarget(file: String) extends GqlCase[(String, AggregationF
         }]
     }
     """
+  }
 }
 
 case class Disease(file: String) extends GqlCase[String] {
@@ -106,18 +108,19 @@ case class DiseaseAggregationfilter(file: String) extends GqlCase[(String, Aggre
 abstract class AbstractDrug extends GqlCase[String] {
   val inputGenerator = drugGenerator
 
-  override def generateVariables(drugId: String): String =
+  override def generateVariables(drugId: String): String = {
     s"""
       "variables": {
       "chemblId": "$drugId"
     }
     """
+  }
 }
 
 abstract class AbstractTarget extends GqlCase[String] {
   val inputGenerator = geneGenerator
 
-  def generateVariables(target: String): String =
+  def generateVariables(target: String): String = {
     s"""
       "variables": {
       "ensgId": "$target",
@@ -125,17 +128,19 @@ abstract class AbstractTarget extends GqlCase[String] {
       "index": 0
     }
     """
+  }
 }
 
 abstract class AbstractDisease extends GqlCase[String] {
   val inputGenerator = diseaseGenerator
 
-  def generateVariables(disease: String): String =
+  def generateVariables(disease: String): String = {
     s"""
       "variables": {
       "efoId": "$disease"
     }
     """
+  }
 }
 
 case class DrugFragment(file: String) extends AbstractDrug with GqlFragment[String] {
@@ -162,9 +167,8 @@ This is a fragment on disease which takes a gene as an argument. Used on the FE 
 summary information.
  */
 case class DiseaseSummaryFragment(file: String) extends GqlFragment[(String, String)] {
-  def generateFragmentQuery: String =
-    s"$fragmentQuery query DiseaseFragment(xyz: String!, ensgId: String) { disease(efoId: xyz) { ...$fragmentName } }"
-      .replace("xyz", "$efoId")
+  def generateFragmentQuery: String = s"$fragmentQuery query DiseaseFragment(xyz: String!, ensgId: String) { disease(efoId: xyz) { ...$fragmentName } }"
+    .replace("xyz", "$efoId")
 
   val inputGenerator = targetDiseaseGenerator
 
@@ -178,17 +182,6 @@ case class DiseaseSummaryFragment(file: String) extends GqlFragment[(String, Str
 }
 
 case class Drug(file: String) extends AbstractDrug with GqlCase[String]
-
-case class GeneOntology(file: String) extends GqlCase[List[String]] {
-  val inputGenerator = goListGenerator
-
-  def generateVariables(inputs: List[String]): String =
-    s"""
-       "variables": {
-         "goIds": "${inputs.mkString("[", ",", "]")}"
-       }
-     """
-}
 
 case class KnownDrugs(file: String) extends GqlCase[String] {
   val inputGenerator = diseaseGenerator
@@ -206,12 +199,13 @@ case class KnownDrugs(file: String) extends GqlCase[String] {
 case class Search(file: String) extends GqlCase[String] {
   override val inputGenerator = searchGenerator
 
-  def generateVariables(searchTerm: String): String =
+  def generateVariables(searchTerm: String): String = {
     s"""
       "variables": {
       "queryString": "$searchTerm"
     }
     """
+  }
 }
 
 case class SearchPage(file: String) extends GqlCase[(String, String, Int)] {
@@ -280,7 +274,7 @@ case class TargetDiseaseSize(file: String) extends GqlCase[(String, String, Int)
   def generateVariables(input: (String, String, Int)): String =
     generateVariables(input._1, input._2, input._3)
 
-  def generateVariables(target: String, disease: String, size: Int): String =
+  def generateVariables(target: String, disease: String, size: Int): String = {
     s"""
       "variables": {
       "efoId": "$disease",
@@ -288,6 +282,7 @@ case class TargetDiseaseSize(file: String) extends GqlCase[(String, String, Int)
       "size": $size
     }
     """
+  }
 }
 
 case class TargetDiseaseSizeCursor(file: String) extends GqlCase[(String, String, Int)] {
@@ -296,7 +291,7 @@ case class TargetDiseaseSizeCursor(file: String) extends GqlCase[(String, String
   def generateVariables(input: (String, String, Int)): String =
     generateVariables(input._1, input._2, input._3)
 
-  def generateVariables(target: String, disease: String, size: Int): String =
+  def generateVariables(target: String, disease: String, size: Int): String = {
     s"""
     "variables": {
       "efoId": "$disease",
@@ -305,4 +300,5 @@ case class TargetDiseaseSizeCursor(file: String) extends GqlCase[(String, String
       "cursor": null
     }
   """
+  }
 }

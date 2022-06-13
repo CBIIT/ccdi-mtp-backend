@@ -7,14 +7,9 @@ import scala.reflect.io.File
 
 trait GqlItTestInputs {
 
-  lazy val geneInputs =
-    File(this.getClass.getResource(s"/gqlInputs/genes.txt").getPath).lines().toList
-  lazy val diseaseInputs =
-    File(this.getClass.getResource(s"/gqlInputs/efos.txt").getPath).lines().toList
-  lazy val drugInputs =
-    File(this.getClass.getResource(s"/gqlInputs/drugs.txt").getPath).lines().toList
-  lazy val goInputs =
-    File(this.getClass.getResource(s"/gqlInputs/goIds.txt").getPath).lines().toList
+  lazy val geneInputs = File(this.getClass.getResource(s"/gqlInputs/genes.txt").getPath).lines.toList
+  lazy val diseaseInputs = File(this.getClass.getResource(s"/gqlInputs/efos.txt").getPath).lines.toList
+  lazy val drugInputs = File(this.getClass.getResource(s"/gqlInputs/drugs.txt").getPath).lines.toList
 
   val aggregationFilterMap: Map[String, Seq[String]] = Map(
     "pathwayTypes" -> Seq(
@@ -64,24 +59,18 @@ trait GqlItTestInputs {
       "Unclassified protein",
       "Structural protein"
     ),
-    "dataTypes" -> Seq(
-      "Genetic associations",
+    "dataTypes" -> Seq("Genetic associations",
       "Drugs",
       "Text mining",
       "RNA expression",
       "Animal models",
-      "Somatic mutations"
-    ),
-    "tractabilityAntibody" -> Seq(
-      "Clinical precedence",
+      "Somatic mutations"),
+    "tractabilityAntibody" -> Seq("Clinical precedence",
       "Predicted tractable high confidence",
-      "Predicted tractable med low confidence"
-    ),
-    "tractabilitySmallMolecule" -> Seq(
-      "Clinical precedence",
+      "Predicted tractable med low confidence"),
+    "tractabilitySmallMolecule" -> Seq("Clinical precedence",
       "Discovery precedence",
-      "Predicted tractable"
-    )
+      "Predicted tractable")
   )
 
   // Generators
@@ -89,14 +78,12 @@ trait GqlItTestInputs {
     for {
       name <- Gen.oneOf(aggregationFilterMap.keySet)
       paths <- Gen.someOf(aggregationFilterMap(name))
-    } yield AggregationFilter(name, paths.to(Seq))
+    } yield AggregationFilter(name, paths)
   }
 
   val geneGenerator: Gen[String] = Gen.oneOf(geneInputs)
   val diseaseGenerator: Gen[String] = Gen.oneOf(diseaseInputs)
   val drugGenerator: Gen[String] = Gen.oneOf(drugInputs)
-  val goGenerator: Gen[String] = Gen.oneOf(goInputs)
-  val goListGenerator: Gen[List[String]] = Gen.listOf(goGenerator)
   val sizeGenerator: Gen[Int] = Gen.chooseNum(1, 10)
   val targetDiseaseSizeGenerator: Gen[(String, String, Int)] = for {
     gene <- geneGenerator

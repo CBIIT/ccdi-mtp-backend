@@ -1,49 +1,56 @@
 package models.entities
 
-import play.api.Logging
+import models.Helpers.logger
+import play.api.{Logger, Logging}
 import play.api.libs.json._
 import play.api.libs.json.Reads._
 import play.api.libs.functional.syntax._
+import play.api.libs.json.JsonNaming.SnakeCase
 
-case class BiologicalModels(
-    allelicComposition: String,
-    geneticBackground: String,
-    id: Option[String],
-    literature: Option[Seq[String]]
-)
+case class GenotypePhenotype(subjectBackground: String,
+                             identifier: String,
+                             label: String,
+                             pubmedId: String,
+                             subjectAllelicComposition: String)
 
-case class ModelPhenotypeClasses(
-    id: String,
-    label: String
-)
+case class MousePhenotype(categoryIdentifier: String,
+                          categoryLabel: String,
+                          genotypePhenotype: Seq[GenotypePhenotype])
 
-case class MousePhenotype(
-    biologicalModels: Seq[BiologicalModels],
-    modelPhenotypeClasses: Seq[ModelPhenotypeClasses],
-    modelPhenotypeId: String,
-    modelPhenotypeLabel: String,
-    targetFromSourceId: String,
-    targetInModel: String,
-    targetInModelEnsemblId: Option[String],
-    targetInModelMgiId: String
-)
+case class MouseGene(id: String, symbol: String, phenotypes: Seq[MousePhenotype])
+
+case class MousePhenotypes(id: String, rows: Seq[MouseGene])
 
 object MousePhenotypes extends Logging {
 
-  implicit val biologicalModelsF: OFormat[BiologicalModels] = Json.format[BiologicalModels]
-  implicit val modelPhenotypeClassesF: OFormat[ModelPhenotypeClasses] =
-    Json.format[ModelPhenotypeClasses]
-  implicit val mousePhenotypeW: OWrites[MousePhenotype] = Json.writes[MousePhenotype]
+  implicit val genotypePhenotypeW = Json.writes[GenotypePhenotype]
+  implicit val mousePhenotypeW = Json.writes[MousePhenotype]
+  implicit val mouseGeneW = Json.writes[MouseGene]
+  implicit val mousePhenotypesW = Json.writes[MousePhenotypes]
+
+  implicit val genotypePhenotypeR: Reads[GenotypePhenotype] = (
+    (__ \ "subject_background").read[String] and
+      (__ \ "mp_identifier").read[String] and
+      (__ \ "mp_label").read[String] and
+      (__ \ "pmid").read[String] and
+      (__ \ "subject_allelic_composition").read[String]
+  )(GenotypePhenotype.apply _)
 
   implicit val mousePhenotypeR: Reads[MousePhenotype] = (
-    (__ \ "biologicalModels").read[Seq[BiologicalModels]] and
-      (__ \ "modelPhenotypeClasses").read[Seq[ModelPhenotypeClasses]] and
-      (__ \ "modelPhenotypeId").read[String] and
-      (__ \ "modelPhenotypeLabel").read[String] and
-      (__ \ "targetFromSourceId").read[String] and
-      (__ \ "targetInModel").read[String] and
-      (__ \ "targetInModelEnsemblId").readNullable[String] and
-      (__ \ "targetInModelMgiId").read[String]
+    (__ \ "category_mp_identifier").read[String] and
+      (__ \ "category_mp_label").read[String] and
+      (__ \ "genotype_phenotype").readWithDefault[Seq[GenotypePhenotype]](Seq.empty)
   )(MousePhenotype.apply _)
 
+  implicit val mouseGeneR: Reads[MouseGene] = (
+    (__ \ "mouse_gene_id").read[String] and
+      (__ \ "mouse_gene_symbol").read[String] and
+      (__ \ "phenotypes").readWithDefault[Seq[MousePhenotype]](Seq.empty)
+  )(MouseGene.apply _)
+
+  implicit val mousePhenotypesR: Reads[MousePhenotypes] =
+    (
+      (__ \ "id").read[String] and
+        (__ \ "phenotypes").readWithDefault[Seq[MouseGene]](Seq.empty)
+    )(MousePhenotypes.apply _)
 }

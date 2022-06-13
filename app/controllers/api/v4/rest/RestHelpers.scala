@@ -7,11 +7,10 @@ import play.api.mvc.{AbstractController, Action, ControllerComponents}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RestHelpers @Inject() (implicit
-    ec: ExecutionContext,
-    cc: ControllerComponents,
-    config: Config
-) extends AbstractController(cc)
+class RestHelpers @Inject()(implicit ec: ExecutionContext,
+                            cc: ControllerComponents,
+                            config: Config)
+  extends AbstractController(cc)
     with Logging {
 
   def checkCredentials[A](action: Action[A]): Action[A] = Action.async(action.parser) { request =>

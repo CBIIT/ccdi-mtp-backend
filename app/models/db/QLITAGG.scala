@@ -4,13 +4,12 @@ import esecuele.Column._
 import esecuele.{Functions => F, Query => Q, _}
 import play.api.Logging
 
-case class QLITAGG(
-    tableName: String,
-    indexTableName: String,
-    ids: Set[String],
-    size: Int,
-    offset: Int
-) extends Queryable
+case class QLITAGG(tableName: String,
+                   indexTableName: String,
+                   ids: Set[String],
+                   size: Int,
+                   offset: Int)
+    extends Queryable
     with Logging {
 
   require(ids.nonEmpty)
@@ -32,7 +31,7 @@ case class QLITAGG(
     From(TIdx),
     PreWhere(F.in(key, F.set(ids.map(literal).toSeq))),
     GroupBy(pmid.name :: Nil),
-    Having(F.greaterOrEquals(F.count(pmid.name), literal(ids.size))),
+    Having(F.greaterOrEquals(F.count(pmid.name),literal(ids.size))),
     OrderBy(F.sum(relevance.name).desc :: F.any(date.name).desc :: Nil),
     Limit(offset, size)
   )
@@ -43,13 +42,13 @@ case class QLITAGG(
     PreWhere(F.in(pmid, pmidsQ(pmid :: Nil).toColumn(None)))
   )
 
-  val total: Q = {
+  val total = {
     val countQ = Q(
       Select(literal(1) :: Nil),
       From(TIdx),
       PreWhere(F.in(key, F.set(ids.map(literal).toSeq))),
       GroupBy(pmid.name :: Nil),
-      Having(F.greaterOrEquals(F.count(pmid.name), literal(ids.size)))
+      Having(F.greaterOrEquals(F.count(pmid.name),literal(ids.size)))
     )
 
     val q = Q(
@@ -62,10 +61,10 @@ case class QLITAGG(
     q
   }
 
-  override val query: Q = {
+  override val query = {
     val q = Q(
       Select(pmid :: pmcid :: date :: sentences :: Nil),
-      From(pmidsQ(pmid :: Nil).toColumn(None), Some("L")),
+      From(pmidsQ(pmid :: Nil).toColumn(None) , Some("L")),
       Join(litQ.toColumn(None), Some("left"), Some("any"), global = false, Some("L"), pmid :: Nil)
     )
 

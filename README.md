@@ -1,8 +1,5 @@
 # Open Targets Platform API BETA (experimental)
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/bd5502f2bbf04b9f91d716064b2868e6)](https://www.codacy.com/gh/CBIIT/ppdc-otp-backend/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CBIIT/ppdc-otp-backend&amp;utm_campaign=Badge_Grade)
-
-
 Experimental GraphQL API.
 
 ## Requirement
@@ -15,10 +12,55 @@ Eg. localhost:9200  (tunnelling or locally installed)
 
 
 ## How to use
+
+## How to deploy to Google AppEngine 
+
+Promote the deployed version to receive all traffic or deploy an AppEngine specific version.
+
+#### Deploy and set as default traffic
+
+The first step is tag to the new release. 
+
+```bash
+git tag -a 0.75.0 -m "Release 0.75.0"
+git push origin 0.75.0
+git push --tags
+```
+
+The file Dockerfile contains the instruction to build and copy the jar.
+To create the distribution 
+
+```sbt dist```
+
+The final step is running deploy script
+
+```
+   bash deploy_gcloud.bash
+```
+
+#### Deployed AppEng version
+
+The file Dockerfile contains the instruction to build and copy the jar.
+To create a local distribution run the following command:
+
+```sbt dist```
+
+Create locally the app adding a specific version name 
+otherwise if you do not specify a version, one will be generated for you.
+Eg. hpo-1-0
+
+```
+gcloud --project=open-targets-eu-dev app deploy \
+    --no-promote \
+    -v hpo-1-0
+
+```
+
 ## Sangria caches
 
-This application uses Sangria as a GraphQL wrapper and uses deferred resolver caches to improve query times. In cases
-where the data is updated in Elasticsearch it will not be available on the front-end if it has previously been cached.
+This application uses Sangria as a GraphQL wrapper and uses deferred resolver
+caches to improve query times. In cases where the data is updated in Elasticsearch
+it will not be available on the front-end if it has previously been cached.
 
 To reset the cache following a data update use the following request:
 
@@ -54,7 +96,7 @@ gcloud beta compute ssh --zone "europe-west1-d" [some es instance] --tunnel-thro
 1. Get the files: run `sbt updateGqlFiles` to retrieve all '*.gql' files from the front-end repository and copy them to
    the
    `test/resources/gqlQueries` directory and prints output regarding which files are new / changed.
-2. Run tests `sbt testOnly controllers.GqlTest`
+2. Run tests `sbt testOnly testOnly controllers.GqlTest`
 
 #### Maintaining up to date
 

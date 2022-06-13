@@ -28,8 +28,10 @@ query CancerGeneCensusQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
     id
     hallmarks {
       attributes {
-        description
-        pmid
+        reference {
+          pubmedId
+          description
+        }
         name
       }
     }

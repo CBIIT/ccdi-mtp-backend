@@ -3,34 +3,31 @@ package models.entities
 import play.api.Logging
 import play.api.libs.json._
 import play.api.libs.json.Reads._
+import play.api.libs.functional.syntax._
 
 case class DiseaseSynonyms(relation: String, terms: Seq[String])
 
 case class DiseaseOntology(isTherapeuticArea: Boolean)
 
-case class Disease(
-    id: String,
-    name: String,
-    therapeuticAreas: Seq[String],
-    description: Option[String],
-    dbXRefs: Option[Seq[String]],
-    directLocationIds: Option[Seq[String]],
-    indirectLocationIds: Option[Seq[String]],
-    obsoleteTerms: Option[Seq[String]],
-    synonyms: Option[Seq[DiseaseSynonyms]],
-    parents: Seq[String],
-    children: Seq[String],
-    ancestors: Seq[String],
-    descendants: Seq[String],
-    ontology: DiseaseOntology
-)
+case class Disease(id: String,
+                   name: String,
+                   therapeuticAreas: Seq[String],
+                   description: Option[String],
+                   dbXRefs: Option[Seq[String]],
+                   directLocationIds: Option[Seq[String]],
+                   indirectLocationIds: Option[Seq[String]],
+                   obsoleteTerms: Option[Seq[String]],
+                   synonyms: Option[Seq[DiseaseSynonyms]],
+                   parents: Seq[String],
+                   children: Seq[String],
+                   ancestors: Seq[String],
+                   descendants: Seq[String],
+                   ontology: DiseaseOntology)
 
 object Disease extends Logging {
 
-  implicit val DiseaseOntologyImpF: OFormat[DiseaseOntology] =
-    Json.format[models.entities.DiseaseOntology]
-  implicit val DiseaseSynonymsImpF: OFormat[DiseaseSynonyms] =
-    Json.format[models.entities.DiseaseSynonyms]
+  implicit val DiseaseOntologyImpF = Json.format[models.entities.DiseaseOntology]
+  implicit val DiseaseSynonymsImpF = Json.format[models.entities.DiseaseSynonyms]
 
   private val diseaseTransformerSynonyms: Reads[JsObject] = __.json.update(
     /*
@@ -40,13 +37,15 @@ object Disease extends Logging {
      */
     __.read[JsObject]
       .map { o =>
-        if (o.fields.map(_._1).contains("synonyms")) {
-          val cr: Seq[(String, JsValue)] = o.value("synonyms").as[JsObject].fields.to(Seq)
-          val newJsonObjects: Seq[JsObject] =
-            cr.map(xref => JsObject(Seq("relation" -> JsString(xref._1), "terms" -> xref._2)))
-          (o - "synonyms") ++ Json.obj("synonyms" -> newJsonObjects)
-        } else {
-          o
+        {
+          if (o.fields.map(_._1).contains("synonyms")) {
+            val cr: Seq[(String, JsValue)] = o.value("synonyms").as[JsObject].fields
+            val newJsonObjects: Seq[JsObject] =
+              cr.map(xref => JsObject(Seq("relation" -> JsString(xref._1), "terms" -> xref._2)))
+            (o - "synonyms") ++ Json.obj("synonyms" -> newJsonObjects)
+          } else {
+            o
+          }
         }
       }
   )

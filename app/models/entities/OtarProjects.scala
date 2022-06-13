@@ -1,5 +1,7 @@
 package models.entities
 
+import models.Helpers.logger
+import play.api.Logger
 import play.api.libs.json._
 import play.api.libs.json.Reads._
 import play.api.libs.functional.syntax._
@@ -10,12 +12,12 @@ case class OtarProject(otarCode: String, status: String, projectName: String, re
 case class OtarProjects(efoId: String, rows: Seq[OtarProject])
 
 object OtarProjects {
-  implicit val config: JsonConfiguration.Aux[Json.MacroOptions] = JsonConfiguration(SnakeCase)
-  implicit val otarProjectImpW: OWrites[OtarProject] = Json.writes[OtarProject]
+  implicit val otarProjectImpW = Json.writes[OtarProject]
 
-  implicit val otarProjectImpR: Reads[OtarProject] = Json.reads[OtarProject]
+  implicit val config = JsonConfiguration(SnakeCase)
+  implicit val otarProjectImpR = Json.reads[OtarProject]
 
-  implicit val otarProjectsImpW: OWrites[OtarProjects] = Json.writes[OtarProjects]
+  implicit val otarProjectsImpW = Json.writes[OtarProjects]
   implicit val otarProjectsImpR: Reads[OtarProjects] =
     (
       (__ \ "efo_id").read[String] and

@@ -1,30 +1,31 @@
 package models.gql
 
 import models.Helpers.fromJsValue
+import models.{Backend, entities}
 import models.entities.{
   Disease,
   Drug,
+  ECO,
   Expressions,
-  GeneOntologyTerm,
-  HPO,
   Indications,
+  HPO,
+  MousePhenotypes,
   OtarProjects,
   Reactome,
   Target
 }
-import models.{Backend, entities}
 import play.api.Logging
 import play.api.libs.json.JsValue
 import sangria.execution.deferred.{Fetcher, FetcherCache, FetcherConfig, HasId, SimpleFetcherCache}
 
 object Fetchers extends Logging {
   val soTermsFetcherCache = FetcherCache.simple
-  val soTermsFetcher: Fetcher[Backend, JsValue, JsValue, String] = buildFetcher("so")
+  val soTermsFetcher = buildFetcher("so")
   val targetsFetcherCache = FetcherCache.simple
 
   // target
-  implicit val targetHasId: HasId[Target, String] = HasId[Target, String](_.id)
-  val targetsFetcher: Fetcher[Backend, Target, Target, String] = Fetcher(
+  implicit val targetHasId = HasId[Target, String](_.id)
+  val targetsFetcher = Fetcher(
     config =
       FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(targetsFetcherCache),
     fetch = (ctx: Backend, ids: Seq[String]) => {
@@ -34,8 +35,8 @@ object Fetchers extends Logging {
   val diseasesFetcherCache = FetcherCache.simple
 
   // disease
-  implicit val diseaseHasId: HasId[Disease, String] = HasId[Disease, String](_.id)
-  val diseasesFetcher: Fetcher[Backend, Disease, Disease, String] = Fetcher(
+  implicit val diseaseHasId = HasId[Disease, String](_.id)
+  val diseasesFetcher = Fetcher(
     config =
       FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(diseasesFetcherCache),
     fetch = (ctx: Backend, ids: Seq[String]) => {
@@ -44,8 +45,8 @@ object Fetchers extends Logging {
   )
   val expressionFetcherCache = FetcherCache.simple
 
-  implicit val expressionHasId: HasId[Expressions, String] = HasId[Expressions, String](_.id)
-  val expressionFetcher: Fetcher[Backend, Expressions, Expressions, String] = Fetcher(
+  implicit val expressionHasId = HasId[Expressions, String](_.id)
+  val expressionFetcher = Fetcher(
     config =
       FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(expressionFetcherCache),
     fetch = (ctx: Backend, ids: Seq[String]) => {
@@ -54,8 +55,8 @@ object Fetchers extends Logging {
   )
   val otarProjectsFetcherCache = FetcherCache.simple
 
-  implicit val otarProjectsHasId: HasId[OtarProjects, String] = HasId[OtarProjects, String](_.efoId)
-  val otarProjectsFetcher: Fetcher[Backend, OtarProjects, OtarProjects, String] = Fetcher(
+  implicit val otarProjectsHasId = HasId[OtarProjects, String](_.efoId)
+  val otarProjectsFetcher = Fetcher(
     config = FetcherConfig
       .maxBatchSize(entities.Configuration.batchSize)
       .caching(otarProjectsFetcherCache),
@@ -63,59 +64,69 @@ object Fetchers extends Logging {
       ctx.getOtarProjects(ids)
     }
   )
+  val mousePhenotypeFetcherCache = FetcherCache.simple
 
+  implicit val mousePhenotypeHasId = HasId[MousePhenotypes, String](_.id)
+  val mousePhenotypeFetcher = Fetcher(
+    config = FetcherConfig
+      .maxBatchSize(entities.Configuration.batchSize)
+      .caching(mousePhenotypeFetcherCache),
+    fetch = (ctx: Backend, ids: Seq[String]) => {
+      ctx.getMousePhenotypes(ids)
+    }
+  )
   val reactomeFetcherCache = FetcherCache.simple
 
-  implicit val reactomeHasId: HasId[Reactome, String] = HasId[Reactome, String](_.id)
-  val reactomeFetcher: Fetcher[Backend, Reactome, Reactome, String] = Fetcher(
+  implicit val reactomeHasId = HasId[Reactome, String](_.id)
+  val reactomeFetcher = Fetcher(
     config =
       FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(reactomeFetcherCache),
     fetch = (ctx: Backend, ids: Seq[String]) => {
       ctx.getReactomeNodes(ids)
     }
   )
+  val ecosFetcherCache = FetcherCache.simple
+
+  implicit val ecoHasId = HasId[ECO, String](_.id)
+  val ecosFetcher = Fetcher(
+    config =
+      FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(diseasesFetcherCache),
+    fetch = (ctx: Backend, ids: Seq[String]) => {
+      ctx.getECOs(ids)
+    }
+  )
 
   //hpo fetcher
-  implicit val hpoHasId: HasId[HPO, String] = HasId[HPO, String](_.id)
+  implicit val hpoHasId = HasId[HPO, String](_.id)
 
   val hpoFetcherCache = FetcherCache.simple
-  val hposFetcher: Fetcher[Backend, HPO, HPO, String] = Fetcher(
-    config = FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(hpoFetcherCache),
+  val hposFetcher = Fetcher(
+    config =
+      FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(hpoFetcherCache),
     fetch = (ctx: Backend, ids: Seq[String]) => {
       ctx.getHPOs(ids)
     }
   )
 
   // drug
-  implicit val drugHasId: HasId[Drug, String] = HasId[Drug, String](_.id)
+  implicit val drugHasId = HasId[Drug, String](_.id)
 
   val drugsFetcherCache = FetcherCache.simple
-  val drugsFetcher: Fetcher[Backend, Drug, Drug, String] = Fetcher(
-    config =
-      FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(drugsFetcherCache),
+  val drugsFetcher = Fetcher(
+    config = FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(drugsFetcherCache),
     fetch = (ctx: Backend, ids: Seq[String]) => {
       ctx.getDrugs(ids)
     }
   )
 
-  implicit val indicationHasId: HasId[Indications, String] = HasId[Indications, String](_.id)
-  val indicationFetcher: Fetcher[Backend, Indications, Indications, String] = Fetcher(
-    config = FetcherConfig.maxBatchSize(entities.Configuration.batchSize),
+  implicit val indicationHasId = HasId[Indications, String](_.id)
+  val indicationFetcher = Fetcher(config =
+    FetcherConfig.maxBatchSize(entities.Configuration.batchSize),
     fetch = (ctx: Backend, ids: Seq[String]) => {
       ctx.getIndications(ids)
-    }
-  )
+    })
 
-  implicit val goFetcherId: HasId[GeneOntologyTerm, String] = HasId[GeneOntologyTerm, String](_.id)
-  val goFetcherCache = FetcherCache.simple
-  val goFetcher: Fetcher[Backend, GeneOntologyTerm, GeneOntologyTerm, String] = Fetcher(
-    config = FetcherConfig.maxBatchSize(entities.Configuration.batchSize).caching(goFetcherCache),
-    fetch = (ctx: Backend, ids: Seq[String]) => {
-      ctx.getGoTerms(ids)
-    }
-  )
-
-  def buildFetcher(index: String): Fetcher[Backend, JsValue, JsValue, String] = {
+  def buildFetcher(index: String) = {
     implicit val soTermHasId = HasId[JsValue, String](el => (el \ "id").as[String])
     Fetcher(
       config =
@@ -137,8 +148,10 @@ object Fetchers extends Logging {
       targetsFetcherCache,
       drugsFetcherCache,
       diseasesFetcherCache,
+      ecosFetcherCache,
       reactomeFetcherCache,
       expressionFetcherCache,
+      mousePhenotypeFetcherCache,
       otarProjectsFetcherCache,
       soTermsFetcherCache
     )

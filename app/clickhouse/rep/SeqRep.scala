@@ -1,7 +1,5 @@
 package clickhouse.rep
 
-import scala.reflect.ClassTag
-
 /** Clickhouse supports Array of elements from different types and this is an approximation
   * to it.
   *
@@ -17,12 +15,11 @@ sealed abstract class SeqRep[T, C[_]](val from: String) {
 }
 
 object SeqRep {
-  def parseFastString(str: String): String = str.slice(1, str.length - 1)
+  def parseFastString(str: String) = str.slice(1, str.length - 1)
 
-  sealed abstract class NumSeqRep[T](override val from: String, val f: String => T)(implicit
-      val ct: ClassTag[T]
-  ) extends SeqRep[T, Vector](from) {
-    override protected def parse(from: String): SeqT =
+  sealed abstract class NumSeqRep[T](override val from: String, val f: String => T)
+      extends SeqRep[T, Vector](from) {
+    override protected def parse(from: String): SeqT = {
       if (from.nonEmpty) {
         from.length match {
           case n if n > minLenTokensForNum =>
@@ -31,6 +28,7 @@ object SeqRep {
         }
       } else
         Vector.empty
+    }
   }
 
   case class DSeqRep(override val from: String) extends NumSeqRep[Double](from, _.toDouble)
@@ -38,7 +36,7 @@ object SeqRep {
   case class LSeqRep(override val from: String) extends NumSeqRep[Long](from, _.toLong)
 
   case class StrSeqRep(override val from: String) extends SeqRep[String, Vector](from) {
-    override protected def parse(from: String): SeqT =
+    override protected def parse(from: String): SeqT = {
       if (from.nonEmpty) {
         from.length match {
           case n if n > minLenTokensForStr =>
@@ -47,12 +45,12 @@ object SeqRep {
         }
       } else
         Vector.empty
+    }
   }
 
-  case class TupleSeqRep[T](override val from: String, val f: String => T)(implicit
-      val ct: ClassTag[T]
-  ) extends SeqRep[T, Vector](from) {
-    override protected def parse(from: String): SeqT =
+  case class TupleSeqRep[T](override val from: String, val f: String => T)
+      extends SeqRep[T, Vector](from) {
+    override protected def parse(from: String): SeqT = {
       if (from.nonEmpty) {
         from.length match {
           case n if n > minLenTokensForStr =>
@@ -62,6 +60,7 @@ object SeqRep {
         }
       } else
         Vector.empty
+    }
   }
 
   object Implicits {
