@@ -1,4 +1,6 @@
-# Open Targets Platform API BETA (experimental)
+# Molecular Targets Platform API 
+
+Inherited from Open Targets Platform 
 
 Experimental GraphQL API.
 
@@ -151,6 +153,9 @@ Pharmaceutical Company and Wellcome Sanger Institute
 
 This software was developed as part of the Open Targets project. For more information please
 see: http://www.opentargets.org
+
+This software was developed as part of the Molecular Targets project.
+
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
 License. You may obtain a copy of the License at
