@@ -42,7 +42,7 @@ class Backend @Inject() (implicit
   /** return meta information loaded from ot.meta settings */
   lazy val getMeta: Meta = defaultOTSettings.meta
   lazy val getESClient: ElasticClient = ElasticClient(
-    JavaClient(ElasticProperties(s"http://${defaultESSettings.host}:${defaultESSettings.port}"))
+    JavaClient(ElasticProperties(s"https://${defaultESSettings.host}:${defaultESSettings.port}"))
   )
   val allSearchableIndices: Seq[String] = defaultESSettings.entities
     .withFilter(_.searchIndex.isDefined)
