@@ -12,7 +12,9 @@ lib/
 .metals/
 .bloop/
 /test/project
+/test/resources/project
 /app/target
 project/metals.sbt
 .vscode/settings.json
 .DS_Store 
+/conf/application.conf
