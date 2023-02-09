@@ -1,0 +1,1971 @@
+{
+	"info": {
+		"_postman_id": "b012185d-595a-49dc-9609-41c58696b6d6",
+		"name": "MTP-22.11",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12103721"
+	},
+	"item": [
+		{
+			"name": "Get Associated Targets By Giving EFO_ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"   ",
+							"pm.test(\"Get Associated Targets : Count of Associated Targets\", () =>",
+							"    pm.expect(jsonData.data.disease.associatedTargets.count).gte(3499));",
+							"",
+							"pm.test(\"Get Associated Targets : Name of disease\", () =>",
+							"    pm.expect(jsonData.data.disease.name).to.equal(\"clear cell renal carcinoma\"));",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query associatedTargets {\n  disease(efoId:\"EFO_0000349\") {\n    id\n    name\n    associatedTargets {\n      count\n      rows {\n        target {\n          id\n          approvedSymbol\n        }\n        score\n      }\n    }\n  }\n  }",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Associated Targets By Giving EFO_ID",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query associatedTargets {\n  disease(efoId:\"EFO_0000349\") {\n    id\n    name\n    associatedTargets {\n      count\n      rows {\n        target {\n          id\n          approvedSymbol\n        }\n        score\n      }\n    }\n  }\n  }",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 18:33:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2311"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"disease\": {\n            \"id\": \"EFO_0000349\",\n            \"name\": \"clear cell renal carcinoma\",\n            \"associatedTargets\": {\n                \"count\": 3499,\n                \"rows\": [\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000163930\",\n                            \"approvedSymbol\": \"BAP1\"\n                        },\n                        \"score\": 0.6397181071209104\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000181555\",\n                            \"approvedSymbol\": \"SETD2\"\n                        },\n                        \"score\": 0.6225678403908775\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000198793\",\n                            \"approvedSymbol\": \"MTOR\"\n                        },\n                        \"score\": 0.6036060296527237\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000126012\",\n                            \"approvedSymbol\": \"KDM5C\"\n                        },\n                        \"score\": 0.5460696166548125\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000163939\",\n                            \"approvedSymbol\": \"PBRM1\"\n                        },\n                        \"score\": 0.5262692272964464\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000141510\",\n                            \"approvedSymbol\": \"TP53\"\n                        },\n                        \"score\": 0.5067048322757041\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000171862\",\n                            \"approvedSymbol\": \"PTEN\"\n                        },\n                        \"score\": 0.4993386993013913\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000134086\",\n                            \"approvedSymbol\": \"VHL\"\n                        },\n                        \"score\": 0.49918899654110277\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000135100\",\n                            \"approvedSymbol\": \"HNF1A\"\n                        },\n                        \"score\": 0.485073559273671\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000105976\",\n                            \"approvedSymbol\": \"MET\"\n                        },\n                        \"score\": 0.48158337376664645\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000128052\",\n                            \"approvedSymbol\": \"KDR\"\n                        },\n                        \"score\": 0.480045253877191\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000037280\",\n                            \"approvedSymbol\": \"FLT4\"\n                        },\n                        \"score\": 0.46131500843733125\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000113721\",\n                            \"approvedSymbol\": \"PDGFRB\"\n                        },\n                        \"score\": 0.46028652816606513\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000157404\",\n                            \"approvedSymbol\": \"KIT\"\n                        },\n                        \"score\": 0.46013601102301066\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000122025\",\n                            \"approvedSymbol\": \"FLT3\"\n                        },\n                        \"score\": 0.4510981795623425\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000165731\",\n                            \"approvedSymbol\": \"RET\"\n                        },\n                        \"score\": 0.4509368103740041\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000149311\",\n                            \"approvedSymbol\": \"ATM\"\n                        },\n                        \"score\": 0.4459410111005271\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000134853\",\n                            \"approvedSymbol\": \"PDGFRA\"\n                        },\n                        \"score\": 0.44180474395918556\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000117713\",\n                            \"approvedSymbol\": \"ARID1A\"\n                        },\n                        \"score\": 0.41867407165610987\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000182578\",\n                            \"approvedSymbol\": \"CSF1R\"\n                        },\n                        \"score\": 0.41721563529808803\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000157764\",\n                            \"approvedSymbol\": \"BRAF\"\n                        },\n                        \"score\": 0.41636764710872665\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000132155\",\n                            \"approvedSymbol\": \"RAF1\"\n                        },\n                        \"score\": 0.4035350132655079\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000102755\",\n                            \"approvedSymbol\": \"FLT1\"\n                        },\n                        \"score\": 0.39553634631788837\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000116016\",\n                            \"approvedSymbol\": \"EPAS1\"\n                        },\n                        \"score\": 0.3794919059897233\n                    },\n                    {\n                        \"target\": {\n                            \"id\": \"ENSG00000188389\",\n                            \"approvedSymbol\": \"PDCD1\"\n                        },\n                        \"score\": 0.3723219070439762\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Associated Disease By Giving Gene Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Get Associated disease : Count of Associated disease\", () =>",
+							"    pm.expect(jsonData.data.target.associatedDiseases.count).gte(618));",
+							"",
+							"pm.test(\"Get Associated disease : Name of target\", () =>",
+							"    pm.expect(jsonData.data.target.approvedSymbol).to.equal(\"IL22\"));",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query associatedDiseases {\n  target(ensemblId: \"ENSG00000127318\") {\n    id\n    approvedSymbol\n    associatedDiseases {\n      count\n      rows {\n        disease {\n          id\n          name\n        }\n        datasourceScores {\n          id\n          score\n        }\n      }\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Associated Disease By Giving Gene Id",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query associatedDiseases {\n  target(ensemblId: \"ENSG00000127318\") {\n    id\n    approvedSymbol\n    associatedDiseases {\n      count\n      rows {\n        disease {\n          id\n          name\n        }\n        datasourceScores {\n          id\n          score\n        }\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:04:04 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3913"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"target\": {\n            \"id\": \"ENSG00000127318\",\n            \"approvedSymbol\": \"IL22\",\n            \"associatedDiseases\": {\n                \"count\": 618,\n                \"rows\": [\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000274\",\n                            \"name\": \"atopic eczema\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.686252657603672\n                            },\n                            {\n                                \"id\": \"chembl\",\n                                \"score\": 0.12158615952232422\n                            },\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.22016000743229328\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0004631\",\n                            \"name\": \"vitamin D measurement\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.6925135132115458\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"HP_0000964\",\n                            \"name\": \"Eczema\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.5880629458495137\n                            },\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.021277577916406734\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"GO_0006306\",\n                            \"name\": \"DNA methylation\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.4928481202689325\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"MONDO_0002406\",\n                            \"name\": \"dermatitis\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.47135293223597197\n                            },\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.30636029109361723\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"MONDO_0024622\",\n                            \"name\": \"thyroid gland adenocarcinoma\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"slapenrich\",\n                                \"score\": 0.7599134970145264\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0004842\",\n                            \"name\": \"eosinophil count\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.22358974619744867\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000685\",\n                            \"name\": \"rheumatoid arthritis\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.8223281983415287\n                            },\n                            {\n                                \"id\": \"chembl\",\n                                \"score\": 0.12158615952232422\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000676\",\n                            \"name\": \"psoriasis\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.8315731227848621\n                            },\n                            {\n                                \"id\": \"chembl\",\n                                \"score\": 0.06079307976116211\n                            },\n                            {\n                                \"id\": \"expression_atlas\",\n                                \"score\": 0.2888887150250423\n                            },\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.03189367339673504\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000544\",\n                            \"name\": \"infection\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.9429317857226371\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"OBI_1110021\",\n                            \"name\": \"infect\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.9429317857226371\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000616\",\n                            \"name\": \"neoplasm\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.9058111112403637\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0008378\",\n                            \"name\": \"mosquito bite reaction size measurement\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.1706976022495074\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0001422\",\n                            \"name\": \"cirrhosis of liver\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.8138346697160339\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_1001052\",\n                            \"name\": \"myeloid sarcoma\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.7912583609932148\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0005856\",\n                            \"name\": \"arthritis\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.7764626543953448\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"MONDO_0007254\",\n                            \"name\": \"breast cancer\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.7672340764925819\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0007834\",\n                            \"name\": \"liver dysplastic nodule\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.7561983643624552\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0003872\",\n                            \"name\": \"colitis\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.6808128311564193\n                            },\n                            {\n                                \"id\": \"impc\",\n                                \"score\": 0.2800737184596738\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000637\",\n                            \"name\": \"osteosarcoma\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.7460780052788819\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000729\",\n                            \"name\": \"ulcerative colitis\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.6293873425306082\n                            },\n                            {\n                                \"id\": \"impc\",\n                                \"score\": 0.29819005622850014\n                            },\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.04405923949889912\n                            },\n                            {\n                                \"id\": \"expression_atlas\",\n                                \"score\": 0.050722715609562666\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0007328\",\n                            \"name\": \"influenza\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.7277391785312568\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000763\",\n                            \"name\": \"viral disease\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"europepmc\",\n                                \"score\": 0.708647757185883\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0007052\",\n                            \"name\": \"antisocial behaviour measurement\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.14164139592164968\n                            }\n                        ]\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"MONDO_0002491\",\n                            \"name\": \"substance abuse\"\n                        },\n                        \"datasourceScores\": [\n                            {\n                                \"id\": \"ot_genetics_portal\",\n                                \"score\": 0.14164139592164968\n                            }\n                        ]\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Version numbers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"   ",
+							"pm.test(\"MTP Version \", () =>",
+							"    pm.expect(jsonData.data.meta.mtpVersion.version).gte(\"2.0.0\"));",
+							"",
+							"pm.test(\"Data Version -year\", () =>",
+							"    pm.expect(jsonData.data.meta.mtpVersion.dataVersion.year).to.equal(22));",
+							"",
+							"pm.test(\"Data Version -month\", () =>",
+							"    pm.expect(jsonData.data.meta.mtpVersion.dataVersion.month).to.equal(11));",
+							"",
+							"",
+							"pm.test(\"API Version- x\", () =>",
+							"    pm.expect(jsonData.data.meta.mtpVersion.apiVersio,x).to.equal(22));",
+							"",
+							"",
+							"pm.test(\"API Version- y\", () =>",
+							"    pm.expect(jsonData.data.meta.mtpVersion.apiVersio,x).to.equal(9));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query GlobalQuery {\n  meta {\n    mtpVersion {\n      version\n    }\n    dataVersion {\n      year\n      month\n      iteration\n    }\n    apiVersion {\n      x\n      y\n      z\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Version numbers",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GlobalQuery {\n  meta {\n    mtpVersion {\n      version\n    }\n    dataVersion {\n      year\n      month\n      iteration\n    }\n    apiVersion {\n      x\n      y\n      z\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 15:54:00 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "141"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "AWSALB=iuKjcPrG3tldynx3I3ldgKWifknT8EejeP6jCb6f1BZiWTQqQ4mH+p5wq/mxNirwuX4ntR0AFxYYbY2LVBNemIbEF55JfjXOCYAh84ljQApb3xWpA+1c7bX5+6VA; Expires=Thu, 16 Feb 2023 15:54:00 GMT; Path=/"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "AWSALBCORS=iuKjcPrG3tldynx3I3ldgKWifknT8EejeP6jCb6f1BZiWTQqQ4mH+p5wq/mxNirwuX4ntR0AFxYYbY2LVBNemIbEF55JfjXOCYAh84ljQApb3xWpA+1c7bX5+6VA; Expires=Thu, 16 Feb 2023 15:54:00 GMT; Path=/; SameSite=None; Secure"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"meta\": {\n            \"mtpVersion\": {\n                \"version\": \"sync_22_09\"\n            },\n            \"dataVersion\": {\n                \"year\": 22,\n                \"month\": 9,\n                \"iteration\": 0\n            },\n            \"apiVersion\": {\n                \"x\": 22,\n                \"y\": 9,\n                \"z\": 4\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Target Disease Evidence",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Disease's name \", () =>",
+							"    pm.expect(jsonData.data.disease.name).to.eq(\"non-Hodgkins lymphoma\"));",
+							"",
+							"pm.test(\"Disease evidences count\", () =>",
+							"    pm.expect(jsonData.data.disease.evidences.count).to.equal(8));",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query targetDiseaseEvidence {\n  disease(efoId: \"EFO_0005952\") {\n    id\n    name\n    evidences(datasourceIds: [\"intogen\"], ensemblIds: [\"ENSG00000172936\"]) {\n      count\n      rows {\n        disease {\n          id\n          name\n        }\n        diseaseFromSource\n        target {\n          id\n          approvedSymbol\n        }\n        mutatedSamples {\n          functionalConsequence {\n            id\n            label\n          }\n          numberSamplesTested\n          numberMutatedSamples\n        }\n        resourceScore\n        significantDriverMethods\n        cohortId\n        cohortShortName\n        cohortDescription\n      }\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Target Disease Evidence",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query targetDiseaseEvidence {\n  disease(efoId: \"EFO_0005952\") {\n    id\n    name\n    evidences(datasourceIds: [\"intogen\"], ensemblIds: [\"ENSG00000172936\"]) {\n      count\n      rows {\n        disease {\n          id\n          name\n        }\n        diseaseFromSource\n        target {\n          id\n          approvedSymbol\n        }\n        mutatedSamples {\n          functionalConsequence {\n            id\n            label\n          }\n          numberSamplesTested\n          numberMutatedSamples\n        }\n        resourceScore\n        significantDriverMethods\n        cohortId\n        cohortShortName\n        cohortDescription\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:05:22 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "5028"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"disease\": {\n            \"id\": \"EFO_0005952\",\n            \"name\": \"non-Hodgkins lymphoma\",\n            \"evidences\": {\n                \"count\": 8,\n                \"rows\": [\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000403\",\n                            \"name\": \"diffuse large B-cell lymphoma\"\n                        },\n                        \"diseaseFromSource\": \"Diffuse large B-cell lymphoma\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 153,\n                                \"numberMutatedSamples\": 24\n                            }\n                        ],\n                        \"resourceScore\": 8.884210411990523e-24,\n                        \"significantDriverMethods\": [\n                            \"oncodriveclustl\",\n                            \"dndscv\",\n                            \"oncodrivefml\",\n                            \"hotmaps\",\n                            \"smregions\",\n                            \"cbase\",\n                            \"mutpanning\"\n                        ],\n                        \"cohortId\": \"OTHER_WGS_DLBCL_NATCOM_2018\",\n                        \"cohortShortName\": \"DLBCL_NATCOM_2018\",\n                        \"cohortDescription\": \"Diffuse large B-cell lymphoma data from Simon Fraser University (Canada)\"\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000095\",\n                            \"name\": \"chronic lymphocytic leukemia\"\n                        },\n                        \"diseaseFromSource\": \"Chronic lymphoblastic leukemia\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 154,\n                                \"numberMutatedSamples\": 11\n                            }\n                        ],\n                        \"resourceScore\": 1.4527361586270195e-24,\n                        \"significantDriverMethods\": [\n                            \"oncodriveclustl\",\n                            \"dndscv\",\n                            \"oncodrivefml\",\n                            \"hotmaps\",\n                            \"smregions\",\n                            \"cbase\",\n                            \"mutpanning\"\n                        ],\n                        \"cohortId\": \"CBIOP_WXS_CLL_BROAD_2013\",\n                        \"cohortShortName\": \"CLL_BROAD_2013\",\n                        \"cohortDescription\": \"Chronic lymphoblastic leukemia data from Broad, Cell 2013\"\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000403\",\n                            \"name\": \"diffuse large B-cell lymphoma\"\n                        },\n                        \"diseaseFromSource\": \"Diffuse large B-cell lymphoma\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 58,\n                                \"numberMutatedSamples\": 7\n                            }\n                        ],\n                        \"resourceScore\": 2.48514584307132e-16,\n                        \"significantDriverMethods\": [\n                            \"oncodriveclustl\",\n                            \"dndscv\",\n                            \"smregions\",\n                            \"cbase\",\n                            \"mutpanning\"\n                        ],\n                        \"cohortId\": \"CBIOP_WXS_DLBC_BROAD_2012\",\n                        \"cohortShortName\": \"DLBC_BROAD_2012\",\n                        \"cohortDescription\": \"Diffuse large B-cell lymphoma data from Broad, PNAS 2012\"\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000403\",\n                            \"name\": \"diffuse large B-cell lymphoma\"\n                        },\n                        \"diseaseFromSource\": \"Diffuse large B-cell lymphoma\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 121,\n                                \"numberMutatedSamples\": 21\n                            }\n                        ],\n                        \"resourceScore\": 3.622452059911302e-30,\n                        \"significantDriverMethods\": [\n                            \"oncodriveclustl\",\n                            \"dndscv\",\n                            \"oncodrivefml\",\n                            \"hotmaps\",\n                            \"smregions\",\n                            \"cbase\",\n                            \"mutpanning\"\n                        ],\n                        \"cohortId\": \"CBIOP_WXS_DLBCL_DFCI_2018\",\n                        \"cohortShortName\": \"DLBCL_DFCI_2018\",\n                        \"cohortDescription\": \"Diffuse large B-cell lymphoma data from DFCI, Nat Med 2018\"\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000095\",\n                            \"name\": \"chronic lymphocytic leukemia\"\n                        },\n                        \"diseaseFromSource\": \"Chronic lymphoblastic leukemia\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 452,\n                                \"numberMutatedSamples\": 18\n                            }\n                        ],\n                        \"resourceScore\": 5.777207269597072e-20,\n                        \"significantDriverMethods\": [\n                            \"oncodriveclustl\",\n                            \"dndscv\",\n                            \"oncodrivefml\",\n                            \"hotmaps\",\n                            \"smregions\",\n                            \"cbase\",\n                            \"mutpanning\"\n                        ],\n                        \"cohortId\": \"CBIOP_WXS_CLL_IUOPA_2015\",\n                        \"cohortShortName\": \"CLL_IUOPA_2015\",\n                        \"cohortDescription\": \"Chronic lymphoblastic leukemia data from IUOPA, Nature 2015\"\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000403\",\n                            \"name\": \"diffuse large B-cell lymphoma\"\n                        },\n                        \"diseaseFromSource\": \"Diffuse large B-cell lymphoma\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 37,\n                                \"numberMutatedSamples\": 7\n                            }\n                        ],\n                        \"resourceScore\": 8.300966356831094e-17,\n                        \"significantDriverMethods\": [\n                            \"dndscv\",\n                            \"smregions\",\n                            \"cbase\",\n                            \"mutpanning\"\n                        ],\n                        \"cohortId\": \"TCGA_WXS_DLBC\",\n                        \"cohortShortName\": \"DLBC_TCGA\",\n                        \"cohortDescription\": \"Diffuse large B-cell lymphoma data from TCGA/PanCanAtlas\"\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0005952\",\n                            \"name\": \"non-Hodgkins lymphoma\"\n                        },\n                        \"diseaseFromSource\": \"Non-hodking lymphoma\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 105,\n                                \"numberMutatedSamples\": 9\n                            }\n                        ],\n                        \"resourceScore\": 8.516817001170567e-22,\n                        \"significantDriverMethods\": [\n                            \"oncodriveclustl\",\n                            \"dndscv\",\n                            \"oncodrivefml\",\n                            \"smregions\",\n                            \"cbase\",\n                            \"mutpanning\"\n                        ],\n                        \"cohortId\": \"PCAWG_WGS_LYMPH_BNHL\",\n                        \"cohortShortName\": \"NHLY_PCAWG\",\n                        \"cohortDescription\": \"Non-hodking lymphoma data from PCAWG\"\n                    },\n                    {\n                        \"disease\": {\n                            \"id\": \"EFO_0000095\",\n                            \"name\": \"chronic lymphocytic leukemia\"\n                        },\n                        \"diseaseFromSource\": \"Chronic lymphoblastic leukemia\",\n                        \"target\": {\n                            \"id\": \"ENSG00000172936\",\n                            \"approvedSymbol\": \"MYD88\"\n                        },\n                        \"mutatedSamples\": [\n                            {\n                                \"functionalConsequence\": {\n                                    \"id\": \"SO:0002053\",\n                                    \"label\": \"gain_of_function_variant\"\n                                },\n                                \"numberSamplesTested\": 90,\n                                \"numberMutatedSamples\": 3\n                            }\n                        ],\n                        \"resourceScore\": 4.2332882525552484e-9,\n                        \"significantDriverMethods\": [\n                            \"oncodriveclustl\",\n                            \"smregions\"\n                        ],\n                        \"cohortId\": \"PCAWG_WGS_LYMPH_CLL\",\n                        \"cohortShortName\": \"CLL_PCAWG\",\n                        \"cohortDescription\": \"Chronic lymphoblastic leukemia data from PCAWG\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get target Annotation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Target's name \", () =>",
+							"    pm.expect(jsonData.data.target.approvedSymbol).to.eq(\"AR\"));",
+							"",
+							"pm.test(\"Tractability records is not null\", () =>",
+							"    pm.expect(jsonData.data.target.tractability.length).gte(10));",
+							"",
+							"pm.test(\"SafetyLiabilities records is not null\", () =>",
+							"    pm.expect(jsonData.data.target.safetyLiabilities.length).gte(10));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query targetAnnotation {\n  target(ensemblId: \"ENSG00000169083\") {\n    id\n    approvedSymbol\n    tractability {\n      modality\n      id\n      value\n    }\n    safetyLiabilities {\n      event\n      eventId\n      biosample {\n        cellFormat\n        cellLabel\n        tissueLabel\n        tissueId\n      }\n      effects {\n        dosing\n        direction\n      }\n      study {\n        name\n        type\n        description\n      }\n      datasource\n      literature\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get target Annotation",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query targetAnnotation {\n  target(ensemblId: \"ENSG00000169083\") {\n    id\n    approvedSymbol\n    tractability {\n      modality\n      id\n      value\n    }\n    safetyLiabilities {\n      event\n      eventId\n      biosample {\n        cellFormat\n        cellLabel\n        tissueLabel\n        tissueId\n      }\n      effects {\n        dosing\n        direction\n      }\n      study {\n        name\n        type\n        description\n      }\n      datasource\n      literature\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:07:41 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "19717"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"target\": {\n            \"id\": \"ENSG00000169083\",\n            \"approvedSymbol\": \"AR\",\n            \"tractability\": [\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"Approved Drug\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"Advanced Clinical\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"Phase 1 Clinical\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"Structure with Ligand\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"High-Quality Ligand\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"High-Quality Pocket\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"Med-Quality Pocket\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"SM\",\n                    \"id\": \"Druggable Family\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"Approved Drug\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"Advanced Clinical\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"Phase 1 Clinical\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"UniProt loc high conf\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"GO CC high conf\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"UniProt loc med conf\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"UniProt SigP or TMHMM\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"GO CC med conf\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"AB\",\n                    \"id\": \"Human Protein Atlas loc\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"Approved Drug\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"Advanced Clinical\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"Phase 1 Clinical\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"Literature\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"UniProt Ubiquitination\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"Database Ubiquitination\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"Half-life Data\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"PR\",\n                    \"id\": \"Small Molecule Binder\",\n                    \"value\": true\n                },\n                {\n                    \"modality\": \"OC\",\n                    \"id\": \"Approved Drug\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"OC\",\n                    \"id\": \"Advanced Clinical\",\n                    \"value\": false\n                },\n                {\n                    \"modality\": \"OC\",\n                    \"id\": \"Phase 1 Clinical\",\n                    \"value\": false\n                }\n            ],\n            \"safetyLiabilities\": [\n                {\n                    \"event\": \"regulation of steroid hormone biosynthetic process\",\n                    \"eventId\": null,\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": \"cell line\",\n                            \"cellLabel\": \"H295R\",\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        }\n                    ],\n                    \"effects\": null,\n                    \"study\": [\n                        {\n                            \"name\": \"CEETOX_H295R_TESTO_noMTC_dn\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"one of 12 assay component(s) measured or calculated from the CEETOX_H295R assay (11 hormones and 1 viability assay). It is designed to make measurements of hormone induction, a form of inducible reporter, as detected with absorbance signals by HPLC-MS-MS technology. The concentrations for these components have not been pre-filtered for the maximum tolerated concentration (MTC) based on the MTT assay (_noMTC).\"\n                        },\n                        {\n                            \"name\": \"CEETOX_H295R_ANDR_noMTC_dn\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"one of 12 assay component(s) measured or calculated from the CEETOX_H295R assay (11 hormones and 1 viability assay). It is designed to make measurements of hormone induction, a form of inducible reporter, as detected with absorbance signals by HPLC-MS-MS technology. The concentrations for these components have not been pre-filtered for the maximum tolerated concentration (MTC) based on the MTT assay (_noMTC).\"\n                        }\n                    ],\n                    \"datasource\": \"ToxCast\",\n                    \"literature\": null\n                },\n                {\n                    \"event\": \"liver complications\",\n                    \"eventId\": \"EFO_0001421\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"osteoporosis\",\n                    \"eventId\": \"EFO_0003882\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"gynecomastia\",\n                    \"eventId\": \"HP_0000771\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"oedema\",\n                    \"eventId\": \"EFO_0009373\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"protein stabilization\",\n                    \"eventId\": null,\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": \"cell line\",\n                            \"cellLabel\": \"HEK293T\",\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        }\n                    ],\n                    \"effects\": null,\n                    \"study\": [\n                        {\n                            \"name\": \"OT_AR_ARSRC1_0960\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"OT_AR_ARSRC1_0960, is one of one assay component(s) measured or calculated from the OT_AR_ARSRC1_0960 assay. It is designed to make measurements of protein fragment complementation, a form of binding reporter, as detected with fluorescence intensity signals by Protein-fragment Complementation technology.\"\n                        },\n                        {\n                            \"name\": \"OT_AR_ARSRC1_0480\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"OT_AR_ARSRC1_0480, is one of one assay component(s) measured or calculated from the OT_AR_ARSRC1_0480 assay. It is designed to make measurements of protein fragment complementation, a form of binding reporter, as detected with fluorescence intensity signals by Protein-fragment Complementation technology.\"\n                        }\n                    ],\n                    \"datasource\": \"ToxCast\",\n                    \"literature\": null\n                },\n                {\n                    \"event\": \"increased prostate carcinoma\",\n                    \"eventId\": \"EFO_0001663\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"bone pain\",\n                    \"eventId\": \"HP_0002653\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"anemia\",\n                    \"eventId\": \"EFO_0004272\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"androgenicity females\",\n                    \"eventId\": \"EFO_0009850\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"decreased spermatogenesis\",\n                    \"eventId\": \"EFO_0000279\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"impotence\",\n                    \"eventId\": \"EFO_0004234\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"bone metastasis\",\n                    \"eventId\": \"EFO_0009870\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"depression\",\n                    \"eventId\": \"MONDO_0002050\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"decreased attention\",\n                    \"eventId\": \"NCIT_C117245\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"heart attack\",\n                    \"eventId\": \"EFO_0000612\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"increased hostility\",\n                    \"eventId\": \"EFO_0003015\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"regulation of transcription factor activity\",\n                    \"eventId\": null,\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": \"cell line\",\n                            \"cellLabel\": \"HepG2\",\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        },\n                        {\n                            \"cellFormat\": \"cell line\",\n                            \"cellLabel\": \"HEK293T\",\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        },\n                        {\n                            \"cellFormat\": \"cell line\",\n                            \"cellLabel\": \"MDA-kb2\",\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        }\n                    ],\n                    \"effects\": null,\n                    \"study\": [\n                        {\n                            \"name\": \"TOX21_AR_LUC_MDAKB2_Agonist\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"TOX21_AR_LUC_MDAKB2_Agonist, is one of one assay component(s) measured or calculated from the TOX21_AR_LUC_MDAkb2_Agonist assay. It is designed to make measurements of luciferase induction, a form of inducible reporter, as detected with bioluminescence signals by luciferase-coupled ATP quantitation technology.\"\n                        },\n                        {\n                            \"name\": \"ATG_AR_TRANS_dn\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"ATG_AR_TRANS, is one of 30 assay component(s) measured or calculated from the ATG_TRANS assay. It is designed to make measurements of mRNA induction, a form of inducible reporter, as detected with fluorescence intensity signals by Reverse transcription polymerase chain reaction (RT-PCR) and Capillary electrophoresis technology.\"\n                        },\n                        {\n                            \"name\": \"TOX21_AR_BLA_Antagonist_ratio\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"TOX21_AR_BLA_Antagonist_ratio is an assay readout measuring reporter gene via receptor activity and designed using inducible reporter (beta lactamase induction) detected with GAL4 b-lactamase reporter gene. The signal is derived from the ratio of cleaved (ch2) to uncleaved (ch1) reporter gene substrate used as the measure of target activity.\"\n                        },\n                        {\n                            \"name\": \"TOX21_AR_LUC_MDAKB2_Antagonist_0.5nM_R1881\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"TOX21_AR_LUC_MDAKB2_Antagonist is one of one assay component(s) measured or calculated from the TOX21_AR_LUC_MDAkb2_Antagonist. It is designed to make measurements of luciferase induction, a form of inducible reporter, as detected with bioluminescence signals following addition of luciferin substrate and ATP.\"\n                        },\n                        {\n                            \"name\": \"TOX21_AR_BLA_Agonist_ratio\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"TOX21_AR_BLA_Agonist_ratio is an assay readout measuring reporter gene via receptor activity and designed using inducible reporter (beta lactamase induction) detected with GAL4 b-lactamase reporter gene. The signal is derived from the ratio of cleaved (ch2) to uncleaved (ch1) substrate used as the measure of target activity. \"\n                        },\n                        {\n                            \"name\": \"TOX21_AR_LUC_MDAKB2_Antagonist_10nM_R1881\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"TOX21_AR_LUC_MDAKB2_Antagonist_Specificity, is one of one assay component(s) measured or calculated from the TOX21_AR_LUC_MDAkb2_Antagonist_Specificity assay. It is designed to make measurements of luciferase induction, a form of inducible reporter, as detected with bioluminescence signals by luciferase-coupled ATP quantitation technology.\"\n                        },\n                        {\n                            \"name\": \"ATG_AR_TRANS_up\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"ATG_AR_TRANS, is one of 30 assay component(s) measured or calculated from the ATG_TRANS assay. It is designed to make measurements of mRNA induction, a form of inducible reporter, as detected with fluorescence intensity signals by Reverse transcription polymerase chain reaction (RT-PCR) and Capillary electrophoresis technology.\"\n                        }\n                    ],\n                    \"datasource\": \"ToxCast\",\n                    \"literature\": null\n                },\n                {\n                    \"event\": \"sleep apnoea\",\n                    \"eventId\": \"EFO_0003877\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"receptor binding\",\n                    \"eventId\": null,\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": \"cell-free\",\n                            \"cellLabel\": null,\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        }\n                    ],\n                    \"effects\": null,\n                    \"study\": [\n                        {\n                            \"name\": \"NVS_NR_hAR\",\n                            \"type\": \"biochemical\",\n                            \"description\": \"NVS_NR_hAR, is one of one assay component(s) measured or calculated from the NVS_NR_hAR assay. It is designed to make measurements of radioligand binding, a form of binding reporter, as detected with scintillation counting signals by Lysate-based radiodetection technology.\"\n                        }\n                    ],\n                    \"datasource\": \"ToxCast\",\n                    \"literature\": null\n                },\n                {\n                    \"event\": \"cell proliferation\",\n                    \"eventId\": null,\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": \"cell line\",\n                            \"cellLabel\": \"22Rv1\",\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        }\n                    ],\n                    \"effects\": null,\n                    \"study\": [\n                        {\n                            \"name\": \"ACEA_AR_antagonist_80hr\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"ACEA_AR_80hr, is one of two assay component(s) measured or calculated from the ACEA_ER assay. It is designed to make measurements of real-time cell-growth kinetics, a form of growth reporter, as detected with electrical impedance signals by Real-Time Cell Electrode Sensor (RT-CES) technology.\"\n                        },\n                        {\n                            \"name\": \"ACEA_AR_agonist_80hr\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"ACEA_AR_80hr, is one of two assay component(s) measured or calculated from the ACEA_AR assay. It is designed to make measurements of real-time cell-growth kinetics, a form of growth reporter, as detected with electrical impedance signals by Real-Time Cell Electrode Sensor (RT-CES) technology.\"\n                        }\n                    ],\n                    \"datasource\": \"ToxCast\",\n                    \"literature\": null\n                },\n                {\n                    \"event\": \"death\",\n                    \"eventId\": \"EFO_0000480\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"decreased memory\",\n                    \"eventId\": \"EFO_0001072\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"increased muscle mass\",\n                    \"eventId\": \"HP_0003720\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"drug abuse/dependence\",\n                    \"eventId\": \"EFO_0003890\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"sexual dysfunction\",\n                    \"eventId\": \"EFO_0004714\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"mastodynia\",\n                    \"eventId\": \"EFO_1001366\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"increased breast carcinoma\",\n                    \"eventId\": \"EFO_0000305\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"general\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Bowes et al. (2012)\",\n                    \"literature\": \"23197038\"\n                },\n                {\n                    \"event\": \"regulation of steroid biosynthetic process\",\n                    \"eventId\": null,\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": \"cell line\",\n                            \"cellLabel\": \"H295R\",\n                            \"tissueLabel\": null,\n                            \"tissueId\": null\n                        }\n                    ],\n                    \"effects\": null,\n                    \"study\": [\n                        {\n                            \"name\": \"CEETOX_H295R_ANDR_up\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"CEETOX_H295R_ANDR, is one of 23 assay component(s) measured or calculated from the CEETOX_H295R assay. It is designed to make measurements of hormone induction, a form of inducible reporter, as detected with absorbance signals by HPLC-MS-MS technology.\"\n                        },\n                        {\n                            \"name\": \"CEETOX_H295R_ANDR_dn\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"CEETOX_H295R_ANDR, is one of 23 assay component(s) measured or calculated from the CEETOX_H295R assay. It is designed to make measurements of hormone induction, a form of inducible reporter, as detected with absorbance signals by HPLC-MS-MS technology.\"\n                        },\n                        {\n                            \"name\": \"CEETOX_H295R_TESTO_up\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"CEETOX_H295R_TESTO, is one of 23 assay component(s) measured or calculated from the CEETOX_H295R assay. It is designed to make measurements of hormone induction, a form of inducible reporter, as detected with absorbance signals by HPLC-MS-MS technology.\"\n                        },\n                        {\n                            \"name\": \"CEETOX_H295R_TESTO_dn\",\n                            \"type\": \"cell-based\",\n                            \"description\": \"CEETOX_H295R_TESTO, is one of 23 assay component(s) measured or calculated from the CEETOX_H295R assay. It is designed to make measurements of hormone induction, a form of inducible reporter, as detected with absorbance signals by HPLC-MS-MS technology.\"\n                        }\n                    ],\n                    \"datasource\": \"ToxCast\",\n                    \"literature\": null\n                },\n                {\n                    \"event\": \"hot flashes\",\n                    \"eventId\": \"HP_0031217\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"increased body weight\",\n                    \"eventId\": \"EFO_0004566\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"decreased anxiety\",\n                    \"eventId\": \"EFO_0009874\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"activation\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"insulin resistance\",\n                    \"eventId\": \"EFO_0002614\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                },\n                {\n                    \"event\": \"increased triglycerides\",\n                    \"eventId\": \"EFO_0004211\",\n                    \"biosample\": [\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"central nervous system\",\n                            \"tissueId\": \"UBERON_0001017\"\n                        },\n                        {\n                            \"cellFormat\": null,\n                            \"cellLabel\": null,\n                            \"tissueLabel\": \"endocrine\",\n                            \"tissueId\": \"UBERON_0000949\"\n                        }\n                    ],\n                    \"effects\": [\n                        {\n                            \"dosing\": \"acute\",\n                            \"direction\": \"inhibition\"\n                        }\n                    ],\n                    \"study\": [],\n                    \"datasource\": \"Lynch et al. (2017)\",\n                    \"literature\": \"28216264\"\n                }\n            ]\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get disease Annotation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Disease's name \", () =>",
+							"    pm.expect(jsonData.data.disease.name).to.eq(\"leukemia\"));",
+							"",
+							"pm.test(\"Phenotypes is not null\", () =>",
+							"    pm.expect(jsonData.",
+							"data.disease.phenotypes.rows.length).gte(1));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query diseaseAnnotation {\n  disease(efoId: \"EFO_0000565\") {\n    id\n    name\n    phenotypes {\n      rows {\n        phenotypeHPO {\n          id\n          name\n          description\n          namespace\n        }\n        phenotypeEFO {\n          id\n          name\n        }\n        evidence {\n          aspect\n          bioCuration\n          diseaseFromSourceId\n          diseaseFromSource\n          evidenceType\n          frequency\n          frequencyHPO {\n            name\n            id\n          }\n          qualifierNot\n          onset {\n            name\n            id\n          }\n          modifiers {\n            name\n            id\n          }\n          references\n          sex\n          resource\n        }\n      }\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get disease Annotation",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query diseaseAnnotation {\n  disease(efoId: \"EFO_0000565\") {\n    id\n    name\n    phenotypes {\n      rows {\n        phenotypeHPO {\n          id\n          name\n          description\n          namespace\n        }\n        phenotypeEFO {\n          id\n          name\n        }\n        evidence {\n          aspect\n          bioCuration\n          diseaseFromSourceId\n          diseaseFromSource\n          evidenceType\n          frequency\n          frequencyHPO {\n            name\n            id\n          }\n          qualifierNot\n          onset {\n            name\n            id\n          }\n          modifiers {\n            name\n            id\n          }\n          references\n          sex\n          resource\n        }\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 16:03:48 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "577"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"disease\": {\n            \"id\": \"EFO_0000565\",\n            \"name\": \"leukemia\",\n            \"phenotypes\": {\n                \"rows\": [\n                    {\n                        \"phenotypeHPO\": {\n                            \"id\": \"HP_0002321\",\n                            \"name\": \"Vertigo\",\n                            \"description\": \"An abnormal sensation of spinning while the body is actually stationary.\",\n                            \"namespace\": [\n                                \"human_phenotype\"\n                            ]\n                        },\n                        \"phenotypeEFO\": {\n                            \"id\": \"HP_0002321\",\n                            \"name\": \"Vertigo\"\n                        },\n                        \"evidence\": [\n                            {\n                                \"aspect\": null,\n                                \"bioCuration\": null,\n                                \"diseaseFromSourceId\": \"MONDO:0005059\",\n                                \"diseaseFromSource\": \"leukemia\",\n                                \"evidenceType\": null,\n                                \"frequency\": null,\n                                \"frequencyHPO\": null,\n                                \"qualifierNot\": false,\n                                \"onset\": [],\n                                \"modifiers\": [],\n                                \"references\": [],\n                                \"sex\": null,\n                                \"resource\": \"MONDO\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get drugApprovalWithdrawnWarningData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"drug's name \", () =>",
+							"    pm.expect(jsonData.data.drug.name).to.eq(\"CELECOXIB\"));",
+							"",
+							"pm.test(\"isApproved is true\", () =>",
+							"    pm.expect(jsonData.data.drug.isApproved).is.eq(true));",
+							"",
+							"",
+							"pm.test(\"hasBeenWithdrawn is true\", () =>",
+							"    pm.expect(jsonData.data.drug.hasBeenWithdrawn).is.eq(true));",
+							"",
+							"",
+							"pm.test(\"blackBoxWarning is true\", () =>",
+							"    pm.expect(jsonData.data.drug.blackBoxWarning).is.eq(true));",
+							"",
+							"",
+							"pm.test(\"drugWarnings is not null\", () =>",
+							"    pm.expect(jsonData.data.drug.drugWarnings.length).gt(0));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query drugApprovalWithdrawnWarningData {\n  drug(chemblId: \"CHEMBL118\") {\n    name\n    id\n    isApproved\n    hasBeenWithdrawn\n    blackBoxWarning\n    drugWarnings {\n      warningType\n      description\n      toxicityClass\n      meddraSocCode\n      year\n      references {\n        id\n        source\n        url\n      }\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get drugApprovalWithdrawnWarningData",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query drugApprovalWithdrawnWarningData {\n  drug(chemblId: \"CHEMBL118\") {\n    name\n    id\n    isApproved\n    hasBeenWithdrawn\n    blackBoxWarning\n    drugWarnings {\n      warningType\n      description\n      toxicityClass\n      meddraSocCode\n      year\n      references {\n        id\n        source\n        url\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:09:37 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3520"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"drug\": {\n            \"name\": \"CELECOXIB\",\n            \"id\": \"CHEMBL118\",\n            \"isApproved\": true,\n            \"hasBeenWithdrawn\": true,\n            \"blackBoxWarning\": true,\n            \"drugWarnings\": [\n                {\n                    \"warningType\": \"Withdrawn\",\n                    \"description\": null,\n                    \"toxicityClass\": null,\n                    \"meddraSocCode\": null,\n                    \"year\": 2011,\n                    \"references\": [\n                        {\n                            \"id\": \"Press_release/2011/05/WC500106524.pdf\",\n                            \"source\": \"EMA\",\n                            \"url\": \"http://www.ema.europa.eu/docs/en_GB/document_library/Press_release/2011/05/WC500106524.pdf\"\n                        },\n                        {\n                            \"id\": \"Public_statement/2011/04/WC500104950.pdf\",\n                            \"source\": \"EMA\",\n                            \"url\": \"http://www.ema.europa.eu/docs/en_GB/document_library/Public_statement/2011/04/WC500104950.pdf\"\n                        }\n                    ]\n                },\n                {\n                    \"warningType\": \"Black Box Warning\",\n                    \"description\": null,\n                    \"toxicityClass\": \"Gastrotoxicity\",\n                    \"meddraSocCode\": 10017947,\n                    \"year\": null,\n                    \"references\": [\n                        {\n                            \"id\": \"9f9dd7b9-a072-46d0-a8b5-b3e138c85f1c\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f9dd7b9-a072-46d0-a8b5-b3e138c85f1c\"\n                        },\n                        {\n                            \"id\": \"6f2d707f-1415-3677-e053-2a91aa0a5b9b\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6f2d707f-1415-3677-e053-2a91aa0a5b9b\"\n                        },\n                        {\n                            \"id\": \"fbe2ac60-fc15-471a-b616-7a378a549f1c\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fbe2ac60-fc15-471a-b616-7a378a549f1c\"\n                        },\n                        {\n                            \"id\": \"a201d754-98dc-42eb-894c-10f3e64f0ad1\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a201d754-98dc-42eb-894c-10f3e64f0ad1\"\n                        },\n                        {\n                            \"id\": \"cbd2d6de-6f0d-4b69-8e27-a1fe08830ba5\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbd2d6de-6f0d-4b69-8e27-a1fe08830ba5\"\n                        }\n                    ]\n                },\n                {\n                    \"warningType\": \"Black Box Warning\",\n                    \"description\": null,\n                    \"toxicityClass\": \"Neurotoxicity\",\n                    \"meddraSocCode\": 10029205,\n                    \"year\": null,\n                    \"references\": [\n                        {\n                            \"id\": \"9f9dd7b9-a072-46d0-a8b5-b3e138c85f1c\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f9dd7b9-a072-46d0-a8b5-b3e138c85f1c\"\n                        },\n                        {\n                            \"id\": \"fbe2ac60-fc15-471a-b616-7a378a549f1c\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fbe2ac60-fc15-471a-b616-7a378a549f1c\"\n                        },\n                        {\n                            \"id\": \"cbd2d6de-6f0d-4b69-8e27-a1fe08830ba5\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbd2d6de-6f0d-4b69-8e27-a1fe08830ba5\"\n                        },\n                        {\n                            \"id\": \"a201d754-98dc-42eb-894c-10f3e64f0ad1\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a201d754-98dc-42eb-894c-10f3e64f0ad1\"\n                        },\n                        {\n                            \"id\": \"6f2d707f-1415-3677-e053-2a91aa0a5b9b\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6f2d707f-1415-3677-e053-2a91aa0a5b9b\"\n                        }\n                    ]\n                },\n                {\n                    \"warningType\": \"Black Box Warning\",\n                    \"description\": null,\n                    \"toxicityClass\": \"Cardiotoxicity\",\n                    \"meddraSocCode\": 10007541,\n                    \"year\": null,\n                    \"references\": [\n                        {\n                            \"id\": \"9f9dd7b9-a072-46d0-a8b5-b3e138c85f1c\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f9dd7b9-a072-46d0-a8b5-b3e138c85f1c\"\n                        },\n                        {\n                            \"id\": \"6f2d707f-1415-3677-e053-2a91aa0a5b9b\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6f2d707f-1415-3677-e053-2a91aa0a5b9b\"\n                        },\n                        {\n                            \"id\": \"cbd2d6de-6f0d-4b69-8e27-a1fe08830ba5\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cbd2d6de-6f0d-4b69-8e27-a1fe08830ba5\"\n                        },\n                        {\n                            \"id\": \"a201d754-98dc-42eb-894c-10f3e64f0ad1\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a201d754-98dc-42eb-894c-10f3e64f0ad1\"\n                        },\n                        {\n                            \"id\": \"fbe2ac60-fc15-471a-b616-7a378a549f1c\",\n                            \"source\": \"DailyMed\",\n                            \"url\": \"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fbe2ac60-fc15-471a-b616-7a378a549f1c\"\n                        }\n                    ]\n                }\n            ]\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Search Insulin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query searchInsulin {\n  search(queryString:\"insulin\"){\n    total\n    hits {\n      id\n      entity\n      description\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "search Insulin",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchInsulin {\n  search(queryString:\"insulin\"){\n    total\n    hits {\n      id\n      entity\n      description\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:15:46 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4934"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"search\": {\n            \"total\": 5232,\n            \"hits\": [\n                {\n                    \"id\": \"ENSG00000254647\",\n                    \"entity\": \"target\",\n                    \"description\": \"insulin\"\n                },\n                {\n                    \"id\": \"ENSG00000129965\",\n                    \"entity\": \"target\",\n                    \"description\": \"INS-IGF2 readthrough\"\n                },\n                {\n                    \"id\": \"CHEMBL1201539\",\n                    \"entity\": \"drug\",\n                    \"description\": \"Protein drug with a maximum clinical trial phase of IV (across all indications) that was first approved in 1966 and has 5 investigational indications.\"\n                },\n                {\n                    \"id\": \"CHEMBL1201631\",\n                    \"entity\": \"drug\",\n                    \"description\": \"Protein drug with a maximum clinical trial phase of IV (across all indications) that was first approved in 1982 and is indicated for diabetes mellitus and type 2 diabetes mellitus and has 47 investigational indications. This drug has a black box warning from the FDA.\"\n                },\n                {\n                    \"id\": \"EFO_0002614\",\n                    \"entity\": \"disease\",\n                    \"description\": \"diminished effectiveness of insulin in lowering plasma glucose levels\"\n                },\n                {\n                    \"id\": \"EFO_0004467\",\n                    \"entity\": \"disease\",\n                    \"description\": \"An insulin measurement is a measure of insulin typically performed in the diagnosis of patients\"\n                },\n                {\n                    \"id\": \"EFO_0004466\",\n                    \"entity\": \"disease\",\n                    \"description\": \"A fasting blood insulin measurement is a measurement of insulin in the blood at a predetermined point after the patient has fasted\"\n                },\n                {\n                    \"id\": \"EFO_0004628\",\n                    \"entity\": \"disease\",\n                    \"description\": \"Is a quantification of any of the insulin like growth factors\"\n                },\n                {\n                    \"id\": \"EFO_0008473\",\n                    \"entity\": \"disease\",\n                    \"description\": \"Quantification of some aspect of insulin response, typically measuring insulin levels in the blood following a glucose challenge\"\n                },\n                {\n                    \"id\": \"MONDO_0012520\",\n                    \"entity\": \"disease\",\n                    \"description\": \"Type A insulin-resistance syndrome belongs to the group of extreme insulin-resistance syndromes (which includes leprechaunism, the lipodystrophies, Rabson-Mendenhall syndrome and type B insulin resistance syndrome) and is characterized by the triad of hyperinsulinemia, acanthosis nigricans (skin lesions associated with insulin resistance), and signs of hyperandrogenism in females without lipodystrophy and who are not overweight.\"\n                },\n                {\n                    \"id\": \"EFO_0008161\",\n                    \"entity\": \"disease\",\n                    \"description\": \"quantification of the amount of insulin-like growth factor-binding protein 7 in a sample\"\n                },\n                {\n                    \"id\": \"EFO_0008464\",\n                    \"entity\": \"disease\",\n                    \"description\": \"The quantification of glucose-dependent insulinotropic peptide, an incretin hormone secreted in response to nutrient stimulation that acts to increase insulin secretion.\"\n                },\n                {\n                    \"id\": \"MONDO_0012110\",\n                    \"entity\": \"disease\",\n                    \"description\": \"Growth delay due to insulin-like growth factor I deficiency is characterised by the association of intrauterine and postnatal growth retardation with sensorineural deafness and intellectual deficit.\"\n                },\n                {\n                    \"id\": \"HP_0045046\",\n                    \"entity\": \"disease\",\n                    \"description\": \"An abnormally decreased concentration of insulin like growth factor binding protein acid labile subunit level in the blood circulation.\"\n                },\n                {\n                    \"id\": \"ENSG00000140443\",\n                    \"entity\": \"target\",\n                    \"description\": \"insulin like growth factor 1 receptor\"\n                },\n                {\n                    \"id\": \"MONDO_0024677\",\n                    \"entity\": \"disease\",\n                    \"description\": \"An insulin-producing neuroendocrine tumor arising from the beta cells of the pancreas. Patients exhibit symptoms related to hypoglycemia due to inappropriate secretion of insulin.\"\n                },\n                {\n                    \"id\": \"EFO_0010164\",\n                    \"entity\": \"disease\",\n                    \"description\": \"A type of diabetes mellitus related not to lack of insulin but rather to lack of response to insulin on the part of the target tissues of insulin such as muscle, fat, and liver cells. This type of diabetes is typically associated with increases both in blood glucose concentrations as will as in fasting and postprandial serum insulin levels.\"\n                },\n                {\n                    \"id\": \"EFO_0008160\",\n                    \"entity\": \"disease\",\n                    \"description\": \"quantification of the amount of insulin receptor in a sample\"\n                },\n                {\n                    \"id\": \"EFO_0004471\",\n                    \"entity\": \"disease\",\n                    \"description\": \"An insulin sensitivity measurement is a measurement of insulin metabolism, which can be measured in a number of ways, for example using the HOMA model or via a glucose tolerance test.\"\n                },\n                {\n                    \"id\": \"ENSG00000171105\",\n                    \"entity\": \"target\",\n                    \"description\": \"insulin receptor\"\n                },\n                {\n                    \"id\": \"EFO_0000549\",\n                    \"entity\": \"disease\",\n                    \"description\": \"An insulin-producing neuroendocrine tumor arising from the beta cells of the pancreas. It may or may not be associated with inappropriate secretion of insulin and an associated clinical syndrome.\"\n                },\n                {\n                    \"id\": \"EFO_0008000\",\n                    \"entity\": \"disease\",\n                    \"description\": \"quantification of the time point at which insulin secretion is highest\"\n                },\n                {\n                    \"id\": \"ENSG00000017427\",\n                    \"entity\": \"target\",\n                    \"description\": \"insulin like growth factor 1\"\n                },\n                {\n                    \"id\": \"MONDO_0016464\",\n                    \"entity\": \"disease\",\n                    \"description\": \"Type B insulin-resistance syndrome belongs to the group of extreme insulin-resistance syndromes (which includes leprechaunism, the lipodystrophies, Rabson-Mendenhall syndrome, and type A insulin resistance syndrome) and occurs in the context of immune dysfunction.\"\n                },\n                {\n                    \"id\": \"EFO_0008001\",\n                    \"entity\": \"disease\",\n                    \"description\": \"Measurement of compounds, generally C-peptide or mature insulin, whose levels quantify insulin secretion from the pancreas.\"\n                }\n            ]\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Search Insulin Cat Counts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\" total hits\", () =>",
+							"    pm.expect(jsonData.data.search.aggregations.total).gte(5267));",
+							"",
+							"",
+							"pm.test(\"hits array is not null\", () =>",
+							"    pm.expect(jsonData.data.search.aggregations.entities.length).to.eq(3));",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query searchInsulinCatCounts {\n  search(queryString:\"insulin\"){\n    aggregations {\n      total\n      entities {\n        total\n        name\n      }\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Search Insulin Cat Counts",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchInsulinCatCounts {\n  search(queryString:\"insulin\"){\n    aggregations {\n      total\n      entities {\n        total\n        name\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:17:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"search\": {\n            \"aggregations\": {\n                \"total\": 5267,\n                \"entities\": [\n                    {\n                        \"total\": 2558,\n                        \"name\": \"disease\"\n                    },\n                    {\n                        \"total\": 2242,\n                        \"name\": \"target\"\n                    },\n                    {\n                        \"total\": 432,\n                        \"name\": \"drug\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get PedCanData by gene and disease",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\" total hits\", () =>",
+							"    pm.expect(jsonData.data.pedCanNav.rows.length).gte(1));",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getPedCanNav($disease: String!, $geneSymbol: String!) {\n  pedCanNav(disease: $disease, geneSymbol: $geneSymbol) {\n    rows {\n      diseaseFromSourceMappedId\n      targetFromSourceId\n      Gene_symbol\n      Disease\n      SNV\n      CNV\n      Fusion\n      GeneExpression\n      id\n    }\n  }\n}\n",
+						"variables": "{\n  \"disease\": \"acute lymphoblastic leukemia\",\n  \"geneSymbol\": \"ache\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Search Insulin Cat Counts",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchInsulinCatCounts {\n  search(queryString:\"insulin\"){\n    aggregations {\n      total\n      entities {\n        total\n        name\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:17:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"search\": {\n            \"aggregations\": {\n                \"total\": 5267,\n                \"entities\": [\n                    {\n                        \"total\": 2558,\n                        \"name\": \"disease\"\n                    },\n                    {\n                        \"total\": 2242,\n                        \"name\": \"target\"\n                    },\n                    {\n                        \"total\": 432,\n                        \"name\": \"drug\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "PCDN get gene",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\" total hits\", () =>",
+							"    pm.expect(jsonData.data.pedCanNavGene.rows.length).gte(10));",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getPedCanNavGene($geneSymbol: String!) {\n  pedCanNavGene(geneSymbol: $geneSymbol) {\n    rows {\n      key\n    }\n  }\n}\n",
+						"variables": "{\n  \"geneSymbol\": \"b\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Search Insulin Cat Counts",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchInsulinCatCounts {\n  search(queryString:\"insulin\"){\n    aggregations {\n      total\n      entities {\n        total\n        name\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:17:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"search\": {\n            \"aggregations\": {\n                \"total\": 5267,\n                \"entities\": [\n                    {\n                        \"total\": 2558,\n                        \"name\": \"disease\"\n                    },\n                    {\n                        \"total\": 2242,\n                        \"name\": \"target\"\n                    },\n                    {\n                        \"total\": 432,\n                        \"name\": \"drug\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get PMTL of ALK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\" total hits\", () =>",
+							"    pm.expect(jsonData.data.target.pmtl_fda_designation).to.eq(\"Relevant Molecular Target\"));",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetPageQuery($ensgId: String!) {\n  target(ensemblId: $ensgId) {\n    id\n    approvedSymbol\n    approvedName\n    pmtl_fda_designation\n  }\n}\n",
+						"variables": "{\n  \"ensgId\": \"ENSG00000171094\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Search Insulin Cat Counts",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchInsulinCatCounts {\n  search(queryString:\"insulin\"){\n    aggregations {\n      total\n      entities {\n        total\n        name\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:17:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"search\": {\n            \"aggregations\": {\n                \"total\": 5267,\n                \"entities\": [\n                    {\n                        \"total\": 2558,\n                        \"name\": \"disease\"\n                    },\n                    {\n                        \"total\": 2242,\n                        \"name\": \"target\"\n                    },\n                    {\n                        \"total\": 432,\n                        \"name\": \"drug\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get PMTL of KRAS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\" total hits\", () =>",
+							"    pm.expect(jsonData.data.target.pmtl_fda_designation).to.eq(\"Relevant Molecular Target\"));",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetPageQuery($ensgId: String!) {\n  target(ensemblId: $ensgId) {\n    id\n    approvedSymbol\n    approvedName\n    pmtl_fda_designation\n  }\n}\n",
+						"variables": "{\n  \"ensgId\": \"ENSG00000133703\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Search Insulin Cat Counts",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchInsulinCatCounts {\n  search(queryString:\"insulin\"){\n    aggregations {\n      total\n      entities {\n        total\n        name\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:17:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"search\": {\n            \"aggregations\": {\n                \"total\": 5267,\n                \"entities\": [\n                    {\n                        \"total\": 2558,\n                        \"name\": \"disease\"\n                    },\n                    {\n                        \"total\": 2242,\n                        \"name\": \"target\"\n                    },\n                    {\n                        \"total\": 432,\n                        \"name\": \"drug\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get PMTL of KRAS Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\" total hits\", () =>",
+							"    pm.expect(jsonData.data.target.pmtl_fda_designation).to.eq(\"Non-Relevant Molecular Target\"));",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetPageQuery($ensgId: String!) {\n  target(ensemblId: $ensgId) {\n    id\n    approvedSymbol\n    approvedName\n    pmtl_fda_designation\n  }\n}\n",
+						"variables": "{\n  \"ensgId\": \"ENSG00000169083\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Search Insulin Cat Counts",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchInsulinCatCounts {\n  search(queryString:\"insulin\"){\n    aggregations {\n      total\n      entities {\n        total\n        name\n      }\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 30 Jan 2023 20:17:05 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "155"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 google"
+						},
+						{
+							"key": "Alt-Svc",
+							"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"search\": {\n            \"aggregations\": {\n                \"total\": 5267,\n                \"entities\": [\n                    {\n                        \"total\": 2558,\n                        \"name\": \"disease\"\n                    },\n                    {\n                        \"total\": 2242,\n                        \"name\": \"target\"\n                    },\n                    {\n                        \"total\": 432,\n                        \"name\": \"drug\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Evidence- Gene Level SNV Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(3);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query CNVDataQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_gene_level_snv\"]\n    ) {\n      count\n      rows{\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneFullName\n       geneSymbol\n       geneType\n       MONDO\n       OncoKBCancerGene\n       OncoKBOncogeneTSG\n       pedcbioPedotMutationsPlotURL\n       pedcbioPedotOncoprintPlotURL\n       proteinEnsemblId\n       proteinRefseqId\n       PMTL\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       diseaseFromSourceMappedId\n       targetFromSourceId\n       id\n       score\n      }\n      }\n    }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000135912\",\n  \"efoId\": \"EFO_0000621\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evidence- Gene Level CNV Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(11);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query CNVDataQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_gene_level_cnv\"]\n    ) {\n      count\n      rows{\n       datasourceId\n  dataset\n  Disease\n  frequencyInOverallDataset\n  frequencyInPrimaryTumors\n  frequencyInRelapseTumors\n  geneFullName\n  geneSymbol\n  MONDO\n  OncoKBCancerGene\n  OncoKBOncogeneTSG\n  PMTL\n  totalAlterationsOverPatientsInDataset\n  variantCategory\n  variantType\n  datatypeId\n  diseaseFromSourceMappedId\n  targetFromSourceId\n  id\n  score\n      }\n      }\n    }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171094\",\n  \"efoId\": \"EFO_0000621\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evidence- Fused Gene Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(1);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query CNVDataQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_putative_oncogene_fused_gene\"]\n    ) {\n      count\n      rows{\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneSymbol\n       MONDO\n       PMTL\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       diseaseFromSourceMappedId\n        targetFromSourceId\n  id\n  score\n      }\n      }\n    }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000141447\",\n  \"efoId\": \"EFO_0000222\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evidence- Fusion Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(30);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query CNVDataQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_putative_oncogene_fusion\"]\n    ) {\n      count\n      rows{\n       breakpointLocation\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       fusionName\n       fusionType\n       fusionAnno\n       gene1AAnno\n       gene1BAnno\n       gene2AAnno\n       gene2BAnno   \n       genePosition\n       geneSymbol\n       kinaseDomainRetainedGene1A\n       kinaseDomainRetainedGene1B\n       MONDO\n       PMTL\n       reciprocalExistsEitherGeneKinase\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       annots\ndiseaseFromSourceMappedId\ntargetFromSourceId\n  id\n  score\n      }\n      }\n    }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171094\",\n  \"efoId\": \"EFO_0000621\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evidence- Variant Level SNV Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(4);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query CNVDataQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_variant_level_snv\"]\n    ) {\n      count\n      rows{\n       datasourceId\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneFullName\n       geneSymbol\n       hotspot\n       MONDO\n       OncoKBCancerGene\n       OncoKBOncogeneTSG\n       polyphenImpact\n       proteinEnsemblId\n       proteinRefseqId\n       proteinChange\n       PMTL\n       siftImpact\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       vepImpact\n       variantIdHg38\n       variantClassification\n       variantType\n       dbSNPId\n       diseaseFromSourceMappedId\n       targetFromSourceId\n       id\n        score\n\n      }\n      }\n    }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171723\",\n  \"efoId\": \"MONDO_0100342\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evidence- SomaticMutationQuery Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.SnvByGene.evidences.count).to.eql(5);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query SomaticMutationQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  SnvByGene:disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_gene_level_snv\"]\n    ) {\n      count\n      rows{\n           dataset\n           Disease\n           frequencyInOverallDataset\n           frequencyInPrimaryTumors\n           frequencyInRelapseTumors\n           geneFullName\n           geneSymbol\n           geneType\n           MONDO\n           OncoKBCancerGene\n           OncoKBOncogeneTSG\n           pedcbioPedotMutationsPlotURL\n           pedcbioPedotOncoprintPlotURL\n           proteinEnsemblId\n           proteinRefseqId\n           PMTL\n           totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n           totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n           diseaseFromSourceMappedId\n           targetFromSourceId\n           id\n           score\n        }\n    }\n  }\n\n  CnvByGene: disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_gene_level_cnv\"]\n    ) {\n      count\n      rows{\n          datasourceId\n          dataset\n          Disease\n          frequencyInOverallDataset\n          frequencyInPrimaryTumors\n          frequencyInRelapseTumors\n          geneFullName\n          geneSymbol\n          MONDO\n          OncoKBCancerGene\n          OncoKBOncogeneTSG\n          PMTL\n          totalAlterationsOverPatientsInDataset\n          variantCategory\n          variantType\n          datatypeId\n          diseaseFromSourceMappedId\n          targetFromSourceId\n          id\n          score\n        }\n      }\n    }\n\n  FusionByGene : disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_putative_oncogene_fused_gene\"]\n    ) {\n      count\n      rows{\n            dataset\n            Disease\n            frequencyInOverallDataset\n            frequencyInPrimaryTumors\n            frequencyInRelapseTumors\n            geneSymbol\n            MONDO\n            PMTL\n            totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n            totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n            diseaseFromSourceMappedId\n            targetFromSourceId\n            id\n            score\n        }\n      }\n    }\n\n  Fusion : disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_putative_oncogene_fusion\"]\n    ) {\n      count\n      rows{\n           breakpointLocation\n           dataset\n           Disease\n           frequencyInOverallDataset\n           frequencyInPrimaryTumors\n           frequencyInRelapseTumors\n           fusionName\n           fusionType\n           fusionAnno\n           gene1AAnno\n           gene1BAnno\n           gene2AAnno\n           gene2BAnno   \n           genePosition\n           geneSymbol\n           kinaseDomainRetainedGene1A\n           kinaseDomainRetainedGene1B\n           MONDO\n           PMTL\n           reciprocalExistsEitherGeneKinase\n           totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n           totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n           annots\n           diseaseFromSourceMappedId\n           targetFromSourceId\n        \n           id\n           score\n          }\n      }\n    }\n\n  SnvByVariant : disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_variant_level_snv\"]\n    ) {\n      count\n       rows{\n       datasourceId\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneFullName\n       geneSymbol\n       hotspot\n       MONDO\n       OncoKBCancerGene\n       OncoKBOncogeneTSG\n       polyphenImpact\n       proteinEnsemblId\n       proteinRefseqId\n       proteinChange\n       PMTL\n       siftImpact\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       vepImpact\n       variantIdHg38\n       variantClassification\n       variantType\n       dbSNPId\n       diseaseFromSourceMappedId\n       targetFromSourceId\n       id\n        score\n\n      }\n      }\n    }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171094\",\n  \"efoId\": \"EFO_0000621\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Target- Variant Level SNV Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.target.evidences.count).to.eql(54);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetAssociationsQuery(\n  $ensemblId: String!\n) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(\n      efoIds: []\n      size: 9999\n      datasourceIds: [\"chop_variant_level_snv\"]\n    ) {\n      count\n        rows{\n       datasourceId\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneFullName\n       geneSymbol\n       hotspot\n       MONDO\n       OncoKBCancerGene\n       OncoKBOncogeneTSG\n       polyphenImpact\n       proteinEnsemblId\n       proteinRefseqId\n       proteinChange\n       PMTL\n       siftImpact\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       vepImpact\n       variantIdHg38\n       variantClassification\n       variantType\n       dbSNPId\n       diseaseFromSourceMappedId\n       targetFromSourceId\n       id\n        score\n\n      }\n      }\n  }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171723\"\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Target - Gene Level CNV Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.target.evidences.count).to.eql(41);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetAssociationsQuery(\n  $ensemblId: String!\n) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(\n      efoIds: []\n      size: 9999\n      datasourceIds: [\"chop_gene_level_cnv\"]\n    ) {\n      count\n          rows{\n       datasourceId\n  dataset\n  Disease\n  frequencyInOverallDataset\n  frequencyInPrimaryTumors\n  frequencyInRelapseTumors\n  geneFullName\n  geneSymbol\n  MONDO\n  OncoKBCancerGene\n  OncoKBOncogeneTSG\n  PMTL\n  totalAlterationsOverPatientsInDataset\n  variantCategory\n  variantType\n  datatypeId\n  diseaseFromSourceMappedId\n  targetFromSourceId\n  id\n  score\n      }\n      }\n  }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000135912\"\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Target- Gene Level SNV Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.target.evidences.count).to.eql(9);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetAssociationsQuery(\n  $ensemblId: String!\n) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(\n      efoIds: []\n      size: 9999\n      datasourceIds: [\"chop_gene_level_snv\"]\n    ) {\n      count\n          rows{\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneFullName\n       geneSymbol\n       geneType\n       MONDO\n       OncoKBCancerGene\n       OncoKBOncogeneTSG\n       pedcbioPedotMutationsPlotURL\n       pedcbioPedotOncoprintPlotURL\n       proteinEnsemblId\n       proteinRefseqId\n       PMTL\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       diseaseFromSourceMappedId\n       targetFromSourceId\n       id\n       score\n      }\n      }\n  }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000135912\"\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Target- Fused Gene Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.target.evidences.count).to.eql(2);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetAssociationsQuery(\n  $ensemblId: String!\n) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(\n      efoIds: []\n      size: 9999\n      datasourceIds: [\"chop_putative_oncogene_fused_gene\"]\n    ) {\n      count\n          rows{\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneSymbol\n       MONDO\n       PMTL\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       diseaseFromSourceMappedId\n        targetFromSourceId\n  id\n  score\n      }\n      }\n  }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000141447\",\n  \"efoId\": \"EFO_0000222\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Target- Fusion Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.target.evidences.count).to.eql(57);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query TargetAssociationsQuery(\n  $ensemblId: String!\n) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(\n      efoIds: []\n      size: 9999\n      datasourceIds: [\"chop_putative_oncogene_fusion\"]\n    ) {\n      count\n         rows{\n       breakpointLocation\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       fusionName\n       fusionType\n       fusionAnno\n       gene1AAnno\n       gene1BAnno\n       gene2AAnno\n       gene2BAnno   \n       genePosition\n       geneSymbol\n       kinaseDomainRetainedGene1A\n       kinaseDomainRetainedGene1B\n       MONDO\n       PMTL\n       reciprocalExistsEitherGeneKinase\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       annots\ndiseaseFromSourceMappedId\ntargetFromSourceId\n  id\n  score\n      }\n      }\n  }\n}\n",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171094\",\n  \"efoId\": \"EFO_0000621\",\n  \"size\": 50\n}\n"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PedCan Nav Page API Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.pedCanNav.rows[0].Gene_symbol).to.eql(\"ALK\");",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": " query getPedCanNav($disease: String!, $geneSymbol: String!) {\n  pedCanNav(disease: $disease,geneSymbol:$geneSymbol) {\n    rows{\n        diseaseFromSourceMappedId\n        targetFromSourceId\n        Gene_symbol\n        Disease\n        SNV\n        CNV\n        Fusion\n        GeneExpression\n        id\n    }\n  }\n  }\n",
+						"variables": "{\"disease\":\"\",\"geneSymbol\":\"ALK\"}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PedCan Nav Page Gene API Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.pedCanNavGene.rows[0].key).to.eql(\"ALK\");",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": " query getPedCanNavGene($geneSymbol: String!) {\n  pedCanNavGene(geneSymbol:$geneSymbol) {\n    rows{\n        key\n    }\n  }\n  }\n",
+						"variables": "{\"geneSymbol\":\"alk\"}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancer Gene Census Query (Evidence) Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.disease.evidences.rows[0].disease.id).to.eql(\"EFO_1000075\");",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query CancerGeneCensusQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      datasourceIds: [\"cancer_gene_census\"]\n      size: $size\n    ) {\n      rows {\n        disease {\n          id\n          name\n        }\n        mutatedSamples {\n          functionalConsequence {\n            id\n            label\n          }\n          numberSamplesWithMutationType\n          numberSamplesTested\n        }\n        literature\n      }\n    }\n  }\n  target(ensemblId: $ensemblId) {\n    id\n    hallmarks {\n      attributes {\n        description\n        pmid\n        name\n      }\n    }\n  }\n}\n",
+						"variables": "{\n    \"ensemblId\": \"ENSG00000171094\",\n    \"efoId\": \"EFO_0000621\",\n    \"size\": 50\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClinVar (Evidence) Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Has correct properties and some data\", function(){",
+							"",
+							"     var jsonData = pm.response.json();",
+							"     pm.expect(jsonData.data.disease.evidences.rows.length).gt(5);",
+							"   ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query ClinvarQuery(\n  $ensemblId: String!\n  $efoId: String!\n  $size: Int!\n  $cursor: String\n) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      datasourceIds: [\"eva\"]\n      size: $size\n      cursor: $cursor\n    ) {\n      cursor\n      rows {\n        disease {\n          id\n          name\n        }\n        diseaseFromSource\n        variantId\n        variantRsId\n        studyId\n        variantFunctionalConsequence {\n          id\n          label\n        }\n        clinicalSignificances\n        allelicRequirements\n        alleleOrigins\n        confidence\n        literature\n        cohortPhenotypes\n      }\n    }\n  }\n}\n",
+						"variables": "{\n    \"ensemblId\": \"ENSG00000171094\",\n    \"efoId\": \"EFO_0000621\",\n    \"size\": 50\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
