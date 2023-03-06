@@ -13,14 +13,13 @@ case class ChemicalProbe(
     id: String,
     control: Option[String],
     drugId: Option[String],
-    inchiKey: String,
     mechanismOfAction: Option[Seq[String]],
     isHighQuality: Boolean,
     origin: Option[Seq[String]],
-    probeMinerScore: Option[String],
-    probesDrugScore: Option[String],
-    scoreInCells: Option[String],
-    scoreInOrganisms: Option[String],
+    probeMinerScore: Option[Double],
+    probesDrugsScore: Option[Double],
+    scoreInCells: Option[Double],
+    scoreInOrganisms: Option[Double],
     targetFromSourceId: String,
     urls: Vector[ChemicalProbeUrl]
 )

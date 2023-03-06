@@ -25,6 +25,9 @@ import play.api.libs.json._
 import play.api.{Configuration, Environment, Logging}
 import play.db.NamedDatabase
 
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import scala.collection.immutable.ArraySeq
 import scala.concurrent._
 
@@ -762,26 +765,66 @@ class Backend @Inject() (implicit
   def getLiteratureOcurrences(ids: Set[String], cursor: Option[String]): Future[Publications] = {
     import Pagination._
 
+    getLiterature(ids, Option.empty, Option.empty, Option.empty, Option.empty, cursor)
+  }
+
+  def getLiteratureOcurrences(ids: Set[String],
+                              startYear: Option[Int],
+                              startMonth: Option[Int],
+                              endYear: Option[Int],
+                              endMonth: Option[Int],
+                              cursor: Option[String]
+  ): Future[Publications] = {
+    import Pagination._
+
+    getLiterature(ids, startYear, startMonth, endYear, endMonth, cursor)
+  }
+
+  private def getLiterature(ids: Set[String],
+                            startYear: Option[Int],
+                            startMonth: Option[Int],
+                            endYear: Option[Int],
+                            endMonth: Option[Int],
+                            cursor: Option[String]
+  ) = {
     val table = defaultOTSettings.clickhouse.literature
     val indexTable = defaultOTSettings.clickhouse.literatureIndex
     logger.info(s"query literature ocurrences in table ${table.name}")
 
     val pag = Helpers.Cursor.to(cursor).flatMap(_.asOpt[Pagination]).getOrElse(Pagination.mkDefault)
 
-    val simQ = QLITAGG(table.name, indexTable.name, ids, pag.size, pag.offset)
+    val filterDate = (startYear, endYear) match {
+      case (Some(strYear), Some(ndYear)) =>
+        Some(strYear, startMonth.getOrElse(1), ndYear, endMonth.getOrElse(12))
+      case _ => Option.empty
+    }
+
+    val simQ = QLITAGG(table.name, indexTable.name, ids, pag.size, pag.offset, filterDate)
+
+    def runQuery(year: Int, total: Long) =
+      dbRetriever.executeQuery[Publication, Query](simQ.query).map { v =>
+        val pubs = v
+          .map(pub => Json.toJson(pub))
+        val nCursor = if (v.size < pag.size) {
+          None
+        } else {
+          val npag = pag.next
+          Helpers.Cursor.from(Some(Json.toJson(npag)))
+        }
+        Publications(total, year, nCursor, pubs)
+      }
+
     dbRetriever.executeQuery[Long, Query](simQ.total).flatMap {
       case Vector(total) if total > 0 =>
         logger.debug(s"total number of publication occurrences $total")
-        dbRetriever.executeQuery[Publication, Query](simQ.query).map { v =>
-          val pubs = v.map(pub => Json.toJson(pub))
-          val nCursor = if (v.size < pag.size) {
-            None
-          } else {
-            val npag = pag.next
-            Helpers.Cursor.from(Some(Json.toJson(npag)))
-          }
-          Publications(total, nCursor, pubs)
+        dbRetriever.executeQuery[Int, Query](simQ.minDate).flatMap {
+          case Vector(year) =>
+            runQuery(year, total)
+          case _ =>
+            logger.info(s"Cannot find the earliest year for the publications.")
+            runQuery(1900, total)
         }
+
       case _ =>
         logger.info(s"there is no publications with this set of ids $ids")
         Future.successful(Publications.empty())
@@ -789,6 +832,33 @@ class Backend @Inject() (implicit
 
 }
 
+
+def filterLiteratureByDate(pub: Publication, dateAndComparator: (Int, Int, Int, Int)): Boolean = {
+    // if no year is sent no filter is applied
+
+    def compareDates(pubDate: LocalDate, reqStartDate: LocalDate, reqEndDate: LocalDate): Boolean =
+      pubDate.compareTo(reqStartDate) >= 0 && pubDate.compareTo(reqEndDate) <= 0
+
+    val pubDate = LocalDate.of(pub.year, pub.month, 1)
+    val reqStartDate = LocalDate.of(dateAndComparator._1, dateAndComparator._2, 1)
+    val reqEndDate = LocalDate.of(dateAndComparator._3, dateAndComparator._4, 1)
+
+    compareDates(pubDate, reqStartDate, reqEndDate)
+
+  }
+
+  /** @param index
+    *   key of index (name field) in application.conf
+    * @param default
+    *   fallback index name
+    * @return
+    *   elasticsearch index name resolved from application.conf or default.
+    */
+  private def getIndexOrDefault(index: String, default: Option[String] = None): String =
+    defaultESSettings.entities
+      .find(_.name == index)
+      .map(_.index)
+      .getOrElse(default.getOrElse(index))
 
 
 // CHOP'S FUNCTION
@@ -814,16 +884,4 @@ class Backend @Inject() (implicit
       case(seq) => PedCanNavGene(seq)
     }
   }
-  
-
-
-  /** @param index  key of index (name field) in application.conf
-    * @param default fallback index name
-    * @return elasticsearch index name resolved from application.conf or default.
-    */
-  private def getIndexOrDefault(index: String, default: Option[String] = None): String =
-    defaultESSettings.entities
-      .find(_.name == index)
-      .map(_.index)
-      .getOrElse(default.getOrElse(index))
 }
