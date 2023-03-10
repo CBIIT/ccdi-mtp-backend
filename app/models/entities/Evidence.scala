@@ -1134,7 +1134,7 @@ object Evidence {
         OptionType(IntType),
         description = None,
         resolve = js => (js.value \ "Median_TPM").asOpt[String]),
-      Field("RNACorrelation",
+      Field("rnaCorrelation",
         OptionType(FloatType),
         description = None,
         resolve = js => (js.value \ "RNA_Correlation").asOpt[String]),
