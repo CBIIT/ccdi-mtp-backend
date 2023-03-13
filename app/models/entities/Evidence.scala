@@ -1174,7 +1174,11 @@ object Evidence {
       Field("chopUuid",
         OptionType(StringType),
         description = None,
-        resolve = js => (js.value \ "chop_uuid").asOpt[String])
+        resolve = js => (js.value \ "chop_uuid").asOpt[String]),
+      Field("transcriptRepresentation",
+        OptionType(FloatType),
+        description = None,
+        resolve = js => (js.value \ "Transcript_Representation").asOpt[Double]),
     )
   )
 }
