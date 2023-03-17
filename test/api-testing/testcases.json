@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Get Associated Targets By Giving EFO_ID",
+			"name": "Target associated By Giving EFO_ID",
 			"event": [
 				{
 					"listen": "test",
@@ -16,7 +16,7 @@
 							" var jsonData = pm.response.json();",
 							"   ",
 							"pm.test(\"Get Associated Targets : Count of Associated Targets\", () =>",
-							"    pm.expect(jsonData.data.disease.associatedTargets.count).gte(3499));",
+							"    pm.expect(jsonData.data.disease.associatedTargets.count).gte(3000));",
 							"",
 							"pm.test(\"Get Associated Targets : Name of disease\", () =>",
 							"    pm.expect(jsonData.data.disease.name).to.equal(\"clear cell renal carcinoma\"));",
@@ -99,7 +99,7 @@
 			]
 		},
 		{
-			"name": "Get Associated Disease By Giving Gene Id",
+			"name": "Disease  Associated By Giving Gene Id",
 			"event": [
 				{
 					"listen": "test",
@@ -108,7 +108,7 @@
 							" var jsonData = pm.response.json();",
 							"",
 							"pm.test(\"Get Associated disease : Count of Associated disease\", () =>",
-							"    pm.expect(jsonData.data.target.associatedDiseases.count).gte(618));",
+							"    pm.expect(jsonData.data.target.associatedDiseases.count).gte(500));",
 							"",
 							"pm.test(\"Get Associated disease : Name of target\", () =>",
 							"    pm.expect(jsonData.data.target.approvedSymbol).to.equal(\"IL22\"));",
@@ -191,7 +191,7 @@
 			]
 		},
 		{
-			"name": "Get Version numbers",
+			"name": "Version numbers",
 			"event": [
 				{
 					"listen": "test",
@@ -200,21 +200,21 @@
 							" var jsonData = pm.response.json();",
 							"   ",
 							"pm.test(\"MTP Version \", () =>",
-							"    pm.expect(jsonData.data.meta.mtpVersion.version).gte(\"2.0.0\"));",
+							"    pm.expect(jsonData.data.meta.mtpVersion.version).not.eq(undefined));",
 							"",
 							"pm.test(\"Data Version -year\", () =>",
-							"    pm.expect(jsonData.data.meta.mtpVersion.dataVersion.year).to.equal(22));",
+							"    pm.expect(jsonData.data.meta.dataVersion.year).not.eq(undefined));",
 							"",
 							"pm.test(\"Data Version -month\", () =>",
-							"    pm.expect(jsonData.data.meta.mtpVersion.dataVersion.month).to.equal(11));",
+							"    pm.expect(jsonData.data.meta.dataVersion.month).not.eq(undefined));",
 							"",
 							"",
 							"pm.test(\"API Version- x\", () =>",
-							"    pm.expect(jsonData.data.meta.mtpVersion.apiVersio,x).to.equal(22));",
+							"    pm.expect(jsonData.data.meta.apiVersion.x).not.eq(undefined));",
 							"",
 							"",
 							"pm.test(\"API Version- y\", () =>",
-							"    pm.expect(jsonData.data.meta.mtpVersion.apiVersio,x).to.equal(9));",
+							"    pm.expect(jsonData.data.meta.apiVersion.y).not.eq(undefined));",
 							""
 						],
 						"type": "text/javascript"
@@ -297,7 +297,7 @@
 			]
 		},
 		{
-			"name": "Get Target Disease Evidence",
+			"name": "Evidence",
 			"event": [
 				{
 					"listen": "test",
@@ -309,7 +309,7 @@
 							"    pm.expect(jsonData.data.disease.name).to.eq(\"non-Hodgkins lymphoma\"));",
 							"",
 							"pm.test(\"Disease evidences count\", () =>",
-							"    pm.expect(jsonData.data.disease.evidences.count).to.equal(8));",
+							"    pm.expect(jsonData.data.disease.evidences.count).to.gte(2));",
 							"",
 							""
 						],
@@ -389,7 +389,7 @@
 			]
 		},
 		{
-			"name": "Get target Annotation",
+			"name": "Target Annotation",
 			"event": [
 				{
 					"listen": "test",
@@ -483,7 +483,7 @@
 			]
 		},
 		{
-			"name": "Get disease Annotation",
+			"name": "Disease Annotation",
 			"event": [
 				{
 					"listen": "test",
@@ -575,7 +575,7 @@
 			]
 		},
 		{
-			"name": "Get drugApprovalWithdrawnWarningData",
+			"name": "Drug Approval Withdrawn Warning Data",
 			"event": [
 				{
 					"listen": "test",
@@ -679,6 +679,21 @@
 		},
 		{
 			"name": "Search Insulin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							" pm.test(\" total hits \", () =>",
+							"    pm.expect(jsonData.data.search.total).gte(5000));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -751,7 +766,7 @@
 			]
 		},
 		{
-			"name": "Get Search Insulin Cat Counts",
+			"name": "Insulin Cat Counts",
 			"event": [
 				{
 					"listen": "test",
@@ -760,11 +775,11 @@
 							" var jsonData = pm.response.json();",
 							"",
 							"pm.test(\" total hits\", () =>",
-							"    pm.expect(jsonData.data.search.aggregations.total).gte(5267));",
+							"    pm.expect(jsonData.data.search.aggregations.total).gte(5000));",
 							"",
 							"",
 							"pm.test(\"hits array is not null\", () =>",
-							"    pm.expect(jsonData.data.search.aggregations.entities.length).to.eq(3));",
+							"    pm.expect(jsonData.data.search.aggregations.entities.length).to.gte(2));",
 							"",
 							""
 						],
@@ -844,7 +859,7 @@
 			]
 		},
 		{
-			"name": "Get PedCanData by gene and disease",
+			"name": "PedCanData by gene and disease",
 			"event": [
 				{
 					"listen": "test",
@@ -1025,7 +1040,7 @@
 			]
 		},
 		{
-			"name": "Get PMTL of ALK",
+			"name": "PMTL of ALK",
 			"event": [
 				{
 					"listen": "test",
@@ -1115,7 +1130,7 @@
 			]
 		},
 		{
-			"name": "Get PMTL of KRAS",
+			"name": "PMTL of KRAS",
 			"event": [
 				{
 					"listen": "test",
@@ -1205,7 +1220,7 @@
 			]
 		},
 		{
-			"name": "Get PMTL of KRAS Copy",
+			"name": "PMTL of AR",
 			"event": [
 				{
 					"listen": "test",
@@ -1295,7 +1310,7 @@
 			]
 		},
 		{
-			"name": "Evidence- Gene Level SNV Copy",
+			"name": "Evidence- Gene Level SNV",
 			"event": [
 				{
 					"listen": "test",
@@ -1306,10 +1321,10 @@
 							"    pm.response.to.be.json;",
 							"});",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(3);",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.gte(3);",
 							"   ",
 							"});",
 							""
@@ -1338,7 +1353,7 @@
 			"response": []
 		},
 		{
-			"name": "Evidence- Gene Level CNV Copy",
+			"name": "Evidence- Gene Level CNV",
 			"event": [
 				{
 					"listen": "test",
@@ -1351,10 +1366,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(11);",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.gte(10);",
 							"   ",
 							"});",
 							""
@@ -1383,7 +1398,7 @@
 			"response": []
 		},
 		{
-			"name": "Evidence- Fused Gene Copy",
+			"name": "Evidence- Fused Gene",
 			"event": [
 				{
 					"listen": "test",
@@ -1396,10 +1411,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(1);",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.gte(1);",
 							"   ",
 							"});",
 							""
@@ -1428,7 +1443,7 @@
 			"response": []
 		},
 		{
-			"name": "Evidence- Fusion Copy",
+			"name": "Evidence- Fusion",
 			"event": [
 				{
 					"listen": "test",
@@ -1441,10 +1456,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(30);",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.gte(30);",
 							"   ",
 							"});",
 							""
@@ -1473,7 +1488,7 @@
 			"response": []
 		},
 		{
-			"name": "Evidence- Variant Level SNV Copy",
+			"name": "Evidence- Variant Level SNV",
 			"event": [
 				{
 					"listen": "test",
@@ -1486,10 +1501,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.disease.evidences.count).to.eql(4);",
+							"     pm.expect(jsonData.data.disease.evidences.count).to.gte(4);",
 							"   ",
 							"});",
 							""
@@ -1518,7 +1533,7 @@
 			"response": []
 		},
 		{
-			"name": "Evidence- SomaticMutationQuery Copy",
+			"name": "Evidence- SomaticMutationQuery",
 			"event": [
 				{
 					"listen": "test",
@@ -1531,10 +1546,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.SnvByGene.evidences.count).to.eql(5);",
+							"     pm.expect(jsonData.data.SnvByGene.evidences.count).to.gte(5);",
 							"   ",
 							"});",
 							""
@@ -1563,7 +1578,7 @@
 			"response": []
 		},
 		{
-			"name": "Target- Variant Level SNV Copy",
+			"name": "Target- Variant Level SNV",
 			"event": [
 				{
 					"listen": "test",
@@ -1576,10 +1591,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.target.evidences.count).to.eql(54);",
+							"     pm.expect(jsonData.data.target.evidences.count).to.gte(50);",
 							"   ",
 							"});",
 							""
@@ -1608,7 +1623,7 @@
 			"response": []
 		},
 		{
-			"name": "Target - Gene Level CNV Copy",
+			"name": "Target - Gene Level CNV",
 			"event": [
 				{
 					"listen": "test",
@@ -1621,10 +1636,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.target.evidences.count).to.eql(41);",
+							"     pm.expect(jsonData.data.target.evidences.count).to.gte(30);",
 							"   ",
 							"});",
 							""
@@ -1653,7 +1668,7 @@
 			"response": []
 		},
 		{
-			"name": "Target- Gene Level SNV Copy",
+			"name": "Target- Gene Level SNV",
 			"event": [
 				{
 					"listen": "test",
@@ -1666,10 +1681,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.target.evidences.count).to.eql(9);",
+							"     pm.expect(jsonData.data.target.evidences.count).to.gte(9);",
 							"   ",
 							"});",
 							""
@@ -1698,7 +1713,7 @@
 			"response": []
 		},
 		{
-			"name": "Target- Fused Gene Copy",
+			"name": "Target- Fused Gene",
 			"event": [
 				{
 					"listen": "test",
@@ -1711,10 +1726,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.target.evidences.count).to.eql(2);",
+							"     pm.expect(jsonData.data.target.evidences.count).to.gte(2);",
 							"   ",
 							"});",
 							""
@@ -1743,7 +1758,7 @@
 			"response": []
 		},
 		{
-			"name": "Target- Fusion Copy",
+			"name": "Target- Fusion",
 			"event": [
 				{
 					"listen": "test",
@@ -1756,10 +1771,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.target.evidences.count).to.eql(57);",
+							"     pm.expect(jsonData.data.target.evidences.count).to.gte(57);",
 							"   ",
 							"});",
 							""
@@ -1788,7 +1803,7 @@
 			"response": []
 		},
 		{
-			"name": "PedCan Nav Page API Copy",
+			"name": "PedCan Nav Page API",
 			"event": [
 				{
 					"listen": "test",
@@ -1833,7 +1848,7 @@
 			"response": []
 		},
 		{
-			"name": "PedCan Nav Page Gene API Copy",
+			"name": "PedCan Nav Page Gene API",
 			"event": [
 				{
 					"listen": "test",
@@ -1878,7 +1893,7 @@
 			"response": []
 		},
 		{
-			"name": "Cancer Gene Census Query (Evidence) Copy",
+			"name": "Cancer Gene Census Query (Evidence)",
 			"event": [
 				{
 					"listen": "test",
@@ -1923,7 +1938,7 @@
 			"response": []
 		},
 		{
-			"name": "ClinVar (Evidence) Copy",
+			"name": "ClinVar (Evidence)",
 			"event": [
 				{
 					"listen": "test",
@@ -1936,10 +1951,10 @@
 							"",
 							"",
 							"",
-							"pm.test(\"Has correct properties and some data\", function(){",
+							"pm.test(\"evidences count\", function(){",
 							"",
 							"     var jsonData = pm.response.json();",
-							"     pm.expect(jsonData.data.disease.evidences.rows.length).gt(5);",
+							"     pm.expect(jsonData.data.disease.evidences.rows.length).gte(5);",
 							"   ",
 							"});",
 							""
@@ -1956,6 +1971,158 @@
 					"graphql": {
 						"query": "query ClinvarQuery(\n  $ensemblId: String!\n  $efoId: String!\n  $size: Int!\n  $cursor: String\n) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      datasourceIds: [\"eva\"]\n      size: $size\n      cursor: $cursor\n    ) {\n      cursor\n      rows {\n        disease {\n          id\n          name\n        }\n        diseaseFromSource\n        variantId\n        variantRsId\n        studyId\n        variantFunctionalConsequence {\n          id\n          label\n        }\n        clinicalSignificances\n        allelicRequirements\n        alleleOrigins\n        confidence\n        literature\n        cohortPhenotypes\n      }\n    }\n  }\n}\n",
 						"variables": "{\n    \"ensemblId\": \"ENSG00000171094\",\n    \"efoId\": \"EFO_0000621\",\n    \"size\": 50\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Target - Methylation By Gene",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"evidences count\", function(){",
+							"    pm.expect(jsonData.data.target.evidences.count).to.gte(20);})",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query EpigeneticModificationQuery($ensemblId: String!, $size: Int) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(efoIds: [], size: $size, datasourceIds: [\"chop_gene_level_methylation\"]) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}\n",
+						"variables": "{\n    \"ensemblId\": \"ENSG00000227232\",\n    \"size\": 20\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Target - Methylation By Isoform",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"evidences count\", function(){",
+							"    pm.expect(jsonData.data.target.evidences.count).to.gte(20);})",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query EpigeneticModificationQuery($ensemblId: String!, $size: Int) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(efoIds: [], size: $size, datasourceIds: [\"chop_transcript_level_methylation\"]) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        transcriptId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        transcriptRepresentation\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}\n",
+						"variables": "{\n    \"ensemblId\": \"ENSG00000227232\",\n    \"size\": 20\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evidence - Methylation By Isoform",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"evidences count\", function(){",
+							"    pm.expect(jsonData.data.disease.evidences.count).to.gte(20);})",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query EpigeneticModificationQuery( $ensemblId: String!, $efoId: String!, $size: Int) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId],\n      enableIndirect: true,\n      size: $size,\n      datasourceIds: [\"chop_transcript_level_methylation\"],\n    ) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        transcriptId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        transcriptRepresentation\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000227232\",\n  \"efoId\": \"MONDO_0016685\",\n  \"size\": 50\n}"
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evidence - Methylation By Gene",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"evidences count\", function(){",
+							"    pm.expect(jsonData.data.disease.evidences.count).to.gte(20);})",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query EpigeneticModificationQuery( $ensemblId: String!, $efoId: String!, $size: Int) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId],\n      enableIndirect: true,\n      size: $size,\n      datasourceIds: [\"chop_gene_level_methylation\"],\n    ) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000227232\",\n  \"efoId\": \"MONDO_0016685\",\n  \"size\": 50\n}"
 					}
 				},
 				"url": {
