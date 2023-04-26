@@ -839,6 +839,12 @@ object Evidence {
         description = Some("Identifier in HGVS notation of the disease-causing variant"),
         resolve = js => (js.value \ "variantHgvsId").asOpt[String]
       ),
+      Field(
+        "HGVSg",
+        OptionType(StringType),
+        description = Some("Identifier in HGVS notation of the disease-causing variant"),
+        resolve = js => (js.value \ "HGVSg").asOpt[String]
+      ),
        Field(
         "releaseVersion",
         OptionType(StringType),
