@@ -14,6 +14,7 @@ case class PedCanNavObject(targetFromSourceId: String,
                   Fusion: Boolean,
                   GeneExpression: Boolean,
                            Methylation:Boolean,
+                           DifferentialExpression:Boolean,
                   id: String
                  )
 
@@ -30,6 +31,7 @@ object PedCanNavObject {
       (JsPath \ "CNV").read[Boolean] and
       (JsPath \ "Fusion").read[Boolean] and
       (JsPath \ "GeneExpression").read[Boolean] and
+      (JsPath \ "DifferentialExpression").read[Boolean] and
       (JsPath \ "Methylation").read[Boolean] and
       (JsPath \ "id").read[String]
   )(PedCanNavObject.apply _)
