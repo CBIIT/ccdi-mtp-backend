@@ -1430,7 +1430,7 @@
 					"mode": "graphql",
 					"graphql": {
 						"query": "query CNVDataQuery($ensemblId: String!, $efoId: String!, $size: Int!) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId]\n      enableIndirect: true\n      size: $size\n      datasourceIds: [\"chop_putative_oncogene_fused_gene\"]\n    ) {\n      count\n      rows{\n       dataset\n       Disease\n       frequencyInOverallDataset\n       frequencyInPrimaryTumors\n       frequencyInRelapseTumors\n       geneSymbol\n       MONDO\n       PMTL\n       totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset\n       totalRelapseTumorsMutatedOverRelapseTumorsInDataset\n       diseaseFromSourceMappedId\n        targetFromSourceId\n  id\n  score\n      }\n      }\n    }\n}\n",
-						"variables": "{\n  \"ensemblId\": \"ENSG00000141447\",\n  \"efoId\": \"EFO_0000222\",\n  \"size\": 50\n}\n"
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171094\",\n  \"efoId\": \"EFO_0000621\",\n  \"size\": 50\n}\n"
 					}
 				},
 				"url": {
@@ -1834,7 +1834,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": " query getPedCanNav($disease: String!, $geneSymbol: String!) {\n  pedCanNav(disease: $disease,geneSymbol:$geneSymbol) {\n    rows{\n        diseaseFromSourceMappedId\n        targetFromSourceId\n        Gene_symbol\n        Disease\n        SNV\n        CNV\n        Fusion\n        GeneExpression\n        id\n    }\n  }\n  }\n",
+						"query": " query getPedCanNav($disease: String!, $geneSymbol: String!) {\n  pedCanNav(disease: $disease,geneSymbol:$geneSymbol) {\n    rows{\n        diseaseFromSourceMappedId\n        targetFromSourceId\n        Gene_symbol\n        Disease\n        SNV\n        CNV\n        Fusion\n        GeneExpression\n        Methylation\n        id\n    }\n  }\n  }\n",
 						"variables": "{\"disease\":\"\",\"geneSymbol\":\"ALK\"}"
 					}
 				},
@@ -2045,7 +2045,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query EpigeneticModificationQuery($ensemblId: String!, $size: Int) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(efoIds: [], size: $size, datasourceIds: [\"chop_transcript_level_methylation\"]) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        transcriptId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        transcriptRepresentation\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}\n",
+						"query": "query EpigeneticModificationQuery($ensemblId: String!, $size: Int) {\n  target(ensemblId: $ensemblId) {\n    id\n    evidences(efoIds: [], size: $size, datasourceIds: [\"chop_isoform_level_methylation\"]) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        transcriptId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        transcriptRepresentation\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}\n",
 						"variables": "{\n    \"ensemblId\": \"ENSG00000227232\",\n    \"size\": 20\n}"
 					}
 				},
@@ -2083,8 +2083,8 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query EpigeneticModificationQuery( $ensemblId: String!, $efoId: String!, $size: Int) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId],\n      enableIndirect: true,\n      size: $size,\n      datasourceIds: [\"chop_transcript_level_methylation\"],\n    ) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        transcriptId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        transcriptRepresentation\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}",
-						"variables": "{\n  \"ensemblId\": \"ENSG00000227232\",\n  \"efoId\": \"MONDO_0016685\",\n  \"size\": 50\n}"
+						"query": "query EpigeneticModificationQuery( $ensemblId: String!, $efoId: String!, $size: Int) {\n  disease(efoId: $efoId) {\n    id\n    evidences(\n      ensemblIds: [$ensemblId],\n      enableIndirect: true,\n      size: $size,\n      datasourceIds: [\"chop_isoform_level_methylation\"],\n    ) {\n      count\n      rows {\n        geneSymbol\n        targetFromSourceId\n        transcriptId\n        geneFeature\n        dataset\n        Disease\n        diseaseFromSourceMappedId\n        MONDO\n        rnaCorrelation\n        medianTPM\n        transcriptRepresentation\n        probeID\n        chromosome\n        location\n        betaQ1\n        betaQ2\n        betaMedian\n        betaQ4\n        betaQ5\n      }\n    }\n  }\n}",
+						"variables": "{\n  \"ensemblId\": \"ENSG00000171094\",\n  \"efoId\": \"EFO_0000621\",\n  \"size\": 50\n}"
 					}
 				},
 				"url": {
@@ -2106,7 +2106,7 @@
 							" var jsonData = pm.response.json();",
 							"",
 							"pm.test(\"evidences count\", function(){",
-							"    pm.expect(jsonData.data.disease.evidences.count).to.gte(20);})",
+							"    pm.expect(jsonData.data.disease.evidences.count).to.gte(5);})",
 							"",
 							"",
 							""
